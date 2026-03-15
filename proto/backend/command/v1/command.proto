@@ -1,0 +1,201 @@
+syntax = "proto3";
+
+package backend.command.v1;
+
+import "google/protobuf/timestamp.proto";
+import "backend/common/v1/common.proto";
+
+service CommandService {
+  rpc CreateSimulation(CreateSimulationRequest) returns (CreateSimulationResponse);
+  rpc CreateSeries(CreateSeriesRequest) returns (CreateSeriesResponse);
+  rpc CreateSeason(CreateSeasonRequest) returns (CreateSeasonResponse);
+  rpc CreateEvent(CreateEventRequest) returns (CreateEventResponse);
+  rpc CreateRace(CreateRaceRequest) returns (CreateRaceResponse);
+
+  rpc CreateDriver(CreateDriverRequest) returns (CreateDriverResponse);
+  rpc UpsertDriverSimulationIdentity(UpsertDriverSimulationIdentityRequest) returns (UpsertDriverSimulationIdentityResponse);
+
+  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse);
+  rpc AddDriverToTeam(AddDriverToTeamRequest) returns (AddDriverToTeamResponse);
+
+  rpc CreatePointSystem(CreatePointSystemRequest) returns (CreatePointSystemResponse);
+  rpc UpdatePointSystem(UpdatePointSystemRequest) returns (UpdatePointSystemResponse);
+
+  rpc CreateTrack(CreateTrackRequest) returns (CreateTrackResponse);
+  rpc CreateTrackLayout(CreateTrackLayoutRequest) returns (CreateTrackLayoutResponse);
+  rpc UpsertSimulationTrackLayoutAlias(UpsertSimulationTrackLayoutAliasRequest) returns (UpsertSimulationTrackLayoutAliasResponse);
+
+  rpc CreateCarManufacturer(CreateCarManufacturerRequest) returns (CreateCarManufacturerResponse);
+  rpc CreateCarModel(CreateCarModelRequest) returns (CreateCarModelResponse);
+  rpc UpsertSimulationCarAlias(UpsertSimulationCarAliasRequest) returns (UpsertSimulationCarAliasResponse);
+}
+
+message CreateSimulationRequest {
+  string name = 1;
+}
+
+message CreateSimulationResponse {
+  backend.common.v1.Simulation simulation = 1;
+}
+
+message CreateSeriesRequest {
+  uint32 simulation_id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message CreateSeriesResponse {
+  backend.common.v1.Series series = 1;
+}
+
+message CreateSeasonRequest {
+  uint32 series_id = 1;
+  string name = 2;
+  uint32 point_system_id = 3;
+  bool has_teams = 4;
+  int32 skip_events = 5;
+}
+
+message CreateSeasonResponse {
+  backend.common.v1.Season season = 1;
+}
+
+message CreateEventRequest {
+  uint32 season_id = 1;
+  uint32 track_layout_id = 2;
+  string name = 3;
+  google.protobuf.Timestamp event_date = 4;
+}
+
+message CreateEventResponse {
+  backend.common.v1.Event event = 1;
+}
+
+message CreateRaceRequest {
+  uint32 event_id = 1;
+  string name = 2;
+  string session_type = 3;
+  int32 sequence_no = 4;
+}
+
+message CreateRaceResponse {
+  backend.common.v1.Race race = 1;
+}
+
+message CreateDriverRequest {
+  uint32 external_id = 1;
+  string name = 2;
+}
+
+message CreateDriverResponse {
+  backend.common.v1.Driver driver = 1;
+}
+
+message UpsertDriverSimulationIdentityRequest {
+  uint32 driver_id = 1;
+  uint32 simulation_id = 2;
+  uint32 simulation_driver_id = 3;
+}
+
+message UpsertDriverSimulationIdentityResponse {
+  bool updated = 1;
+}
+
+message CreateTeamRequest {
+  uint32 season_id = 1;
+  string name = 2;
+}
+
+message CreateTeamResponse {
+  backend.common.v1.Team team = 1;
+}
+
+message AddDriverToTeamRequest {
+  uint32 team_id = 1;
+  uint32 driver_id = 2;
+}
+
+message AddDriverToTeamResponse {
+  backend.common.v1.Team team = 1;
+}
+
+message CreatePointSystemRequest {
+  string name = 1;
+  string description = 2;
+  repeated backend.common.v1.PointRule rules = 3;
+}
+
+message CreatePointSystemResponse {
+  backend.common.v1.PointSystem point_system = 1;
+}
+
+message UpdatePointSystemRequest {
+  uint32 point_system_id = 1;
+  string name = 2;
+  string description = 3;
+  repeated backend.common.v1.PointRule rules = 4;
+}
+
+message UpdatePointSystemResponse {
+  backend.common.v1.PointSystem point_system = 1;
+}
+
+message CreateTrackRequest {
+  string name = 1;
+  string country = 2;
+  double latitude = 3;
+  double longitude = 4;
+  string website_url = 5;
+}
+
+message CreateTrackResponse {
+  backend.common.v1.Track track = 1;
+}
+
+message CreateTrackLayoutRequest {
+  uint32 track_id = 1;
+  string name = 2;
+  int32 length_meters = 3;
+  string layout_image_url = 4;
+}
+
+message CreateTrackLayoutResponse {
+  backend.common.v1.TrackLayout track_layout = 1;
+}
+
+message UpsertSimulationTrackLayoutAliasRequest {
+  uint32 track_layout_id = 1;
+  uint32 simulation_id = 2;
+  string external_name = 3;
+}
+
+message UpsertSimulationTrackLayoutAliasResponse {
+  bool updated = 1;
+}
+
+message CreateCarManufacturerRequest {
+  string name = 1;
+}
+
+message CreateCarManufacturerResponse {
+  backend.common.v1.CarManufacturer car_manufacturer = 1;
+}
+
+message CreateCarModelRequest {
+  uint32 manufacturer_id = 1;
+  string name = 2;
+}
+
+message CreateCarModelResponse {
+  backend.common.v1.CarModel car_model = 1;
+}
+
+message UpsertSimulationCarAliasRequest {
+  uint32 car_model_id = 1;
+  uint32 simulation_id = 2;
+  string external_name = 3;
+}
+
+message UpsertSimulationCarAliasResponse {
+  bool updated = 1;
+}

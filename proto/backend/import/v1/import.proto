@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package backend.import.v1;
+
+import "backend/common/v1/common.proto";
+
+service ImportService {
+  rpc UploadResultsFile(UploadResultsFileRequest) returns (UploadResultsFileResponse);
+  rpc GetPreprocessPreview(GetPreprocessPreviewRequest) returns (GetPreprocessPreviewResponse);
+  rpc ApplyResultEdits(ApplyResultEditsRequest) returns (ApplyResultEditsResponse);
+
+  rpc ComputeDriverBookingEntries(ComputeDriverBookingEntriesRequest) returns (ComputeDriverBookingEntriesResponse);
+  rpc ComputeTeamBookingEntries(ComputeTeamBookingEntriesRequest) returns (ComputeTeamBookingEntriesResponse);
+  rpc FinalizeEventProcessing(FinalizeEventProcessingRequest) returns (FinalizeEventProcessingResponse);
+}
+
+message UploadResultsFileRequest {
+  uint32 event_id = 1;
+  uint32 race_id = 2;
+  backend.common.v1.ImportFormat import_format = 3;
+  bytes payload = 4;
+}
+
+message UploadResultsFileResponse {
+  uint32 import_batch_id = 1;
+  string processing_state = 2;
+}
+
+message GetPreprocessPreviewRequest {
+  uint32 event_id = 1;
+  uint32 race_id = 2;
+}
+
+message GetPreprocessPreviewResponse {
+  repeated backend.common.v1.ResultEntry rows = 1;
+  repeated backend.common.v1.UnresolvedMapping unresolved_mappings = 2;
+}
+
+message ApplyResultEditsRequest {
+  uint32 event_id = 1;
+  uint32 race_id = 2;
+  repeated backend.common.v1.ResultEntry edited_rows = 3;
+}
+
+message ApplyResultEditsResponse {
+  int32 updated_rows = 1;
+}
+
+message ComputeDriverBookingEntriesRequest {
+  uint32 event_id = 1;
+}
+
+message ComputeDriverBookingEntriesResponse {
+  int32 created_entries = 1;
+}
+
+message ComputeTeamBookingEntriesRequest {
+  uint32 event_id = 1;
+}
+
+message ComputeTeamBookingEntriesResponse {
+  int32 created_entries = 1;
+}
+
+message FinalizeEventProcessingRequest {
+  uint32 event_id = 1;
+}
+
+message FinalizeEventProcessingResponse {
+  string processing_state = 1;
+}

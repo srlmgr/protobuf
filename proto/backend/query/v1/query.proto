@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package backend.query.v1;
+
+import "backend/common/v1/common.proto";
+
+service QueryService {
+  rpc GetDriverStandings(GetDriverStandingsRequest) returns (GetDriverStandingsResponse);
+  rpc GetTeamStandings(GetTeamStandingsRequest) returns (GetTeamStandingsResponse);
+  rpc GetEventResults(GetEventResultsRequest) returns (GetEventResultsResponse);
+  rpc GetEventBookingEntries(GetEventBookingEntriesRequest) returns (GetEventBookingEntriesResponse);
+
+  rpc ListSimulations(ListSimulationsRequest) returns (ListSimulationsResponse);
+  rpc ListSeries(ListSeriesRequest) returns (ListSeriesResponse);
+  rpc ListSeasons(ListSeasonsRequest) returns (ListSeasonsResponse);
+  rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
+  rpc ListDrivers(ListDriversRequest) returns (ListDriversResponse);
+  rpc ListTeams(ListTeamsRequest) returns (ListTeamsResponse);
+  rpc ListPointSystems(ListPointSystemsRequest) returns (ListPointSystemsResponse);
+  rpc ListTracks(ListTracksRequest) returns (ListTracksResponse);
+  rpc ListTrackLayouts(ListTrackLayoutsRequest) returns (ListTrackLayoutsResponse);
+  rpc ListCarManufacturers(ListCarManufacturersRequest) returns (ListCarManufacturersResponse);
+  rpc ListCarModels(ListCarModelsRequest) returns (ListCarModelsResponse);
+}
+
+message GetDriverStandingsRequest {
+  uint32 season_id = 1;
+  uint32 as_of_event_id = 2;
+}
+
+message GetDriverStandingsResponse {
+  repeated backend.common.v1.DriverStanding standings = 1;
+}
+
+message GetTeamStandingsRequest {
+  uint32 season_id = 1;
+  uint32 as_of_event_id = 2;
+}
+
+message GetTeamStandingsResponse {
+  repeated backend.common.v1.TeamStanding standings = 1;
+}
+
+message GetEventResultsRequest {
+  uint32 event_id = 1;
+  uint32 race_id = 2;
+}
+
+message GetEventResultsResponse {
+  repeated backend.common.v1.ResultEntry rows = 1;
+}
+
+message GetEventBookingEntriesRequest {
+  uint32 event_id = 1;
+}
+
+message GetEventBookingEntriesResponse {
+  repeated backend.common.v1.BookingEntry rows = 1;
+}
+
+message ListSimulationsRequest {}
+
+message ListSimulationsResponse {
+  repeated backend.common.v1.Simulation items = 1;
+}
+
+message ListSeriesRequest {
+  uint32 simulation_id = 1;
+}
+
+message ListSeriesResponse {
+  repeated backend.common.v1.Series items = 1;
+}
+
+message ListSeasonsRequest {
+  uint32 series_id = 1;
+}
+
+message ListSeasonsResponse {
+  repeated backend.common.v1.Season items = 1;
+}
+
+message ListEventsRequest {
+  uint32 season_id = 1;
+}
+
+message ListEventsResponse {
+  repeated backend.common.v1.Event items = 1;
+}
+
+message ListDriversRequest {}
+
+message ListDriversResponse {
+  repeated backend.common.v1.Driver items = 1;
+}
+
+message ListTeamsRequest {
+  uint32 season_id = 1;
+}
+
+message ListTeamsResponse {
+  repeated backend.common.v1.Team items = 1;
+}
+
+message ListPointSystemsRequest {}
+
+message ListPointSystemsResponse {
+  repeated backend.common.v1.PointSystem items = 1;
+}
+
+message ListTracksRequest {}
+
+message ListTracksResponse {
+  repeated backend.common.v1.Track items = 1;
+}
+
+message ListTrackLayoutsRequest {
+  uint32 track_id = 1;
+}
+
+message ListTrackLayoutsResponse {
+  repeated backend.common.v1.TrackLayout items = 1;
+}
+
+message ListCarManufacturersRequest {}
+
+message ListCarManufacturersResponse {
+  repeated backend.common.v1.CarManufacturer items = 1;
+}
+
+message ListCarModelsRequest {
+  uint32 manufacturer_id = 1;
+}
+
+message ListCarModelsResponse {
+  repeated backend.common.v1.CarModel items = 1;
+}

@@ -1,0 +1,33 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/backend/api
+
+plugins:
+  - remote: buf.build/grpc/go
+    out: gen/go
+    opt: paths=source_relative
+  - remote: buf.build/protocolbuffers/go
+    out: gen/go
+    opt: paths=source_relative
+  - remote: buf.build/connectrpc/go
+    out: gen/go
+    opt: paths=source_relative
+  # - plugin: buf.build/protocolbuffers/ruby
+  #   out: gen/ruby
+  #   opt: paths=source_relative
+  # - plugin: buf.build/protocolbuffers/java
+  #   out: gen/java
+  - remote: buf.build/bufbuild/es:v2.2.3
+    out: gen/es
+    opt:
+      - target=ts
+      - json_types=true
+  - remote: buf.build/community/timostamm-protobuf-ts
+    out: gen/es-timo
+  - remote: buf.build/connectrpc/es
+    out: gen/es
+inputs:
+  - directory: proto

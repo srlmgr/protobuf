@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package backend.common.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// Entity Models
+message Simulation {
+  uint32 id = 1;
+  string name = 2;
+  bool is_active = 3;
+}
+
+message Series {
+  uint32 id = 1;
+  uint32 simulation_id = 2;
+  string name = 3;
+  string description = 4;
+}
+
+message Season {
+  uint32 id = 1;
+  uint32 series_id = 2;
+  string name = 3;
+  uint32 point_system_id = 4;
+  bool has_teams = 5;
+  int32 skip_events = 6;
+  string status = 7;
+}
+
+message Event {
+  uint32 id = 1;
+  uint32 season_id = 2;
+  uint32 track_layout_id = 3;
+  string name = 4;
+  google.protobuf.Timestamp event_date = 5;
+  string status = 6;
+  string processing_state = 7;
+}
+
+message Race {
+  uint32 id = 1;
+  uint32 event_id = 2;
+  string name = 3;
+  string session_type = 4;
+  int32 sequence_no = 5;
+}
+
+message Driver {
+  uint32 id = 1;
+  uint32 external_id = 2;
+  string name = 3;
+}
+
+message Team {
+  uint32 id = 1;
+  uint32 season_id = 2;
+  string name = 3;
+}
+
+message PointRule {
+  string kind = 1;
+  int32 position = 2;
+  int32 points = 3;
+  string metadata_json = 4;
+}
+
+message PointSystem {
+  uint32 id = 1;
+  string name = 2;
+  string description = 3;
+  repeated PointRule rules = 4;
+}
+
+message Track {
+  uint32 id = 1;
+  string name = 2;
+  string country = 3;
+  double latitude = 4;
+  double longitude = 5;
+  string website_url = 6;
+}
+
+message TrackLayout {
+  uint32 id = 1;
+  uint32 track_id = 2;
+  string name = 3;
+  int32 length_meters = 4;
+  string layout_image_url = 5;
+}
+
+message CarManufacturer {
+  uint32 id = 1;
+  string name = 2;
+}
+
+message CarModel {
+  uint32 id = 1;
+  uint32 manufacturer_id = 2;
+  string name = 3;
+}
+
+message ResultEntry {
+  uint32 id = 1;
+  uint32 race_id = 2;
+  uint32 driver_id = 3;
+  uint32 car_model_id = 4;
+  int32 finishing_position = 5;
+  int32 completed_laps = 6;
+  int32 fastest_lap_time_ms = 7;
+  int32 incidents = 8;
+  ResultState state = 9;
+}
+
+message BookingEntry {
+  uint32 id = 1;
+  uint32 event_id = 2;
+  BookingTargetType target_type = 3;
+  uint32 target_id = 4;
+  BookingSourceType source_type = 5;
+  int32 points = 6;
+  string description = 7;
+}
+
+message DriverStanding {
+  uint32 season_id = 1;
+  uint32 driver_id = 2;
+  int32 position = 3;
+  int32 total_points = 4;
+  repeated uint32 dropped_event_ids = 5;
+}
+
+message TeamStanding {
+  uint32 season_id = 1;
+  uint32 team_id = 2;
+  int32 position = 3;
+  int32 total_points = 4;
+  repeated uint32 dropped_event_ids = 5;
+}
+
+message UnresolvedMapping {
+  string source_value = 1;
+  string mapping_type = 2;
+}
+
+// Enums
+enum ResultState {
+  RESULT_STATE_UNSPECIFIED = 0;
+  RESULT_STATE_NORMAL = 1;
+  RESULT_STATE_DQ = 2;
+}
+
+enum BookingTargetType {
+  BOOKING_TARGET_TYPE_UNSPECIFIED = 0;
+  BOOKING_TARGET_TYPE_DRIVER = 1;
+  BOOKING_TARGET_TYPE_TEAM = 2;
+}
+
+enum BookingSourceType {
+  BOOKING_SOURCE_TYPE_UNSPECIFIED = 0;
+  BOOKING_SOURCE_TYPE_POSITION = 1;
+  BOOKING_SOURCE_TYPE_BONUS = 2;
+  BOOKING_SOURCE_TYPE_MANUAL_ADJUSTMENT = 3;
+}
+
+enum ImportFormat {
+  IMPORT_FORMAT_UNSPECIFIED = 0;
+  IMPORT_FORMAT_JSON = 1;
+  IMPORT_FORMAT_CSV = 2;
+}
