@@ -2,50 +2,118 @@ syntax = "proto3";
 
 package backend.command.v1;
 
-import "google/protobuf/timestamp.proto";
 import "backend/common/v1/common.proto";
+import "google/protobuf/timestamp.proto";
 
 service CommandService {
   rpc CreateSimulation(CreateSimulationRequest) returns (CreateSimulationResponse);
+  rpc UpdateSimulation(UpdateSimulationRequest) returns (UpdateSimulationResponse);
+  rpc DeleteSimulation(DeleteSimulationRequest) returns (DeleteSimulationResponse);
   rpc CreateSeries(CreateSeriesRequest) returns (CreateSeriesResponse);
+  rpc UpdateSeries(UpdateSeriesRequest) returns (UpdateSeriesResponse);
+  rpc DeleteSeries(DeleteSeriesRequest) returns (DeleteSeriesResponse);
   rpc CreateSeason(CreateSeasonRequest) returns (CreateSeasonResponse);
+  rpc UpdateSeason(UpdateSeasonRequest) returns (UpdateSeasonResponse);
+  rpc DeleteSeason(DeleteSeasonRequest) returns (DeleteSeasonResponse);
   rpc CreateEvent(CreateEventRequest) returns (CreateEventResponse);
+  rpc UpdateEvent(UpdateEventRequest) returns (UpdateEventResponse);
+  rpc DeleteEvent(DeleteEventRequest) returns (DeleteEventResponse);
   rpc CreateRace(CreateRaceRequest) returns (CreateRaceResponse);
+  rpc UpdateRace(UpdateRaceRequest) returns (UpdateRaceResponse);
+  rpc DeleteRace(DeleteRaceRequest) returns (DeleteRaceResponse);
 
   rpc CreateDriver(CreateDriverRequest) returns (CreateDriverResponse);
+  rpc UpdateDriver(UpdateDriverRequest) returns (UpdateDriverResponse);
+  rpc DeleteDriver(DeleteDriverRequest) returns (DeleteDriverResponse);
   rpc UpsertDriverSimulationIdentity(UpsertDriverSimulationIdentityRequest) returns (UpsertDriverSimulationIdentityResponse);
 
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse);
+  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse);
+  rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse);
   rpc AddDriverToTeam(AddDriverToTeamRequest) returns (AddDriverToTeamResponse);
 
   rpc CreatePointSystem(CreatePointSystemRequest) returns (CreatePointSystemResponse);
   rpc UpdatePointSystem(UpdatePointSystemRequest) returns (UpdatePointSystemResponse);
+  rpc DeletePointSystem(DeletePointSystemRequest) returns (DeletePointSystemResponse);
 
   rpc CreateTrack(CreateTrackRequest) returns (CreateTrackResponse);
+  rpc UpdateTrack(UpdateTrackRequest) returns (UpdateTrackResponse);
+  rpc DeleteTrack(DeleteTrackRequest) returns (DeleteTrackResponse);
   rpc CreateTrackLayout(CreateTrackLayoutRequest) returns (CreateTrackLayoutResponse);
+  rpc UpdateTrackLayout(UpdateTrackLayoutRequest) returns (UpdateTrackLayoutResponse);
+  rpc DeleteTrackLayout(DeleteTrackLayoutRequest) returns (DeleteTrackLayoutResponse);
   rpc UpsertSimulationTrackLayoutAlias(UpsertSimulationTrackLayoutAliasRequest) returns (UpsertSimulationTrackLayoutAliasResponse);
 
   rpc CreateCarManufacturer(CreateCarManufacturerRequest) returns (CreateCarManufacturerResponse);
+  rpc UpdateCarManufacturer(UpdateCarManufacturerRequest) returns (UpdateCarManufacturerResponse);
+  rpc DeleteCarManufacturer(DeleteCarManufacturerRequest) returns (DeleteCarManufacturerResponse);
+  rpc CreateCarBrand(CreateCarBrandRequest) returns (CreateCarBrandResponse);
+  rpc UpdateCarBrand(UpdateCarBrandRequest) returns (UpdateCarBrandResponse);
+  rpc DeleteCarBrand(DeleteCarBrandRequest) returns (DeleteCarBrandResponse);
   rpc CreateCarModel(CreateCarModelRequest) returns (CreateCarModelResponse);
+  rpc UpdateCarModel(UpdateCarModelRequest) returns (UpdateCarModelResponse);
+  rpc DeleteCarModel(DeleteCarModelRequest) returns (DeleteCarModelResponse);
   rpc UpsertSimulationCarAlias(UpsertSimulationCarAliasRequest) returns (UpsertSimulationCarAliasResponse);
 }
 
 message CreateSimulationRequest {
   string name = 1;
+  bool is_active = 2;
+  repeated string supported_formats = 3;
 }
 
 message CreateSimulationResponse {
   backend.common.v1.Simulation simulation = 1;
 }
 
+message UpdateSimulationRequest {
+  uint32 simulation_id = 1;
+  string name = 2;
+  bool is_active = 3;
+  repeated string supported_formats = 4;
+}
+
+message UpdateSimulationResponse {
+  backend.common.v1.Simulation simulation = 1;
+}
+
+message DeleteSimulationRequest {
+  uint32 simulation_id = 1;
+}
+
+message DeleteSimulationResponse {
+  bool deleted = 1;
+}
+
 message CreateSeriesRequest {
   uint32 simulation_id = 1;
   string name = 2;
   string description = 3;
+  bool is_active = 4;
 }
 
 message CreateSeriesResponse {
   backend.common.v1.Series series = 1;
+}
+
+message UpdateSeriesRequest {
+  uint32 series_id = 1;
+  uint32 simulation_id = 2;
+  string name = 3;
+  string description = 4;
+  bool is_active = 5;
+}
+
+message UpdateSeriesResponse {
+  backend.common.v1.Series series = 1;
+}
+
+message DeleteSeriesRequest {
+  uint32 series_id = 1;
+}
+
+message DeleteSeriesResponse {
+  bool deleted = 1;
 }
 
 message CreateSeasonRequest {
@@ -54,10 +122,33 @@ message CreateSeasonRequest {
   uint32 point_system_id = 3;
   bool has_teams = 4;
   int32 skip_events = 5;
+  string status = 6;
 }
 
 message CreateSeasonResponse {
   backend.common.v1.Season season = 1;
+}
+
+message UpdateSeasonRequest {
+  uint32 season_id = 1;
+  uint32 series_id = 2;
+  string name = 3;
+  uint32 point_system_id = 4;
+  bool has_teams = 5;
+  int32 skip_events = 6;
+  string status = 7;
+}
+
+message UpdateSeasonResponse {
+  backend.common.v1.Season season = 1;
+}
+
+message DeleteSeasonRequest {
+  uint32 season_id = 1;
+}
+
+message DeleteSeasonResponse {
+  bool deleted = 1;
 }
 
 message CreateEventRequest {
@@ -65,10 +156,34 @@ message CreateEventRequest {
   uint32 track_layout_id = 2;
   string name = 3;
   google.protobuf.Timestamp event_date = 4;
+  string status = 5;
+  string processing_state = 6;
 }
 
 message CreateEventResponse {
   backend.common.v1.Event event = 1;
+}
+
+message UpdateEventRequest {
+  uint32 event_id = 1;
+  uint32 season_id = 2;
+  uint32 track_layout_id = 3;
+  string name = 4;
+  google.protobuf.Timestamp event_date = 5;
+  string status = 6;
+  string processing_state = 7;
+}
+
+message UpdateEventResponse {
+  backend.common.v1.Event event = 1;
+}
+
+message DeleteEventRequest {
+  uint32 event_id = 1;
+}
+
+message DeleteEventResponse {
+  bool deleted = 1;
 }
 
 message CreateRaceRequest {
@@ -82,13 +197,53 @@ message CreateRaceResponse {
   backend.common.v1.Race race = 1;
 }
 
+message UpdateRaceRequest {
+  uint32 race_id = 1;
+  uint32 event_id = 2;
+  string name = 3;
+  string session_type = 4;
+  int32 sequence_no = 5;
+}
+
+message UpdateRaceResponse {
+  backend.common.v1.Race race = 1;
+}
+
+message DeleteRaceRequest {
+  uint32 race_id = 1;
+}
+
+message DeleteRaceResponse {
+  bool deleted = 1;
+}
+
 message CreateDriverRequest {
   uint32 external_id = 1;
   string name = 2;
+  bool is_active = 3;
 }
 
 message CreateDriverResponse {
   backend.common.v1.Driver driver = 1;
+}
+
+message UpdateDriverRequest {
+  uint32 driver_id = 1;
+  uint32 external_id = 2;
+  string name = 3;
+  bool is_active = 4;
+}
+
+message UpdateDriverResponse {
+  backend.common.v1.Driver driver = 1;
+}
+
+message DeleteDriverRequest {
+  uint32 driver_id = 1;
+}
+
+message DeleteDriverResponse {
+  bool deleted = 1;
 }
 
 message UpsertDriverSimulationIdentityRequest {
@@ -104,10 +259,30 @@ message UpsertDriverSimulationIdentityResponse {
 message CreateTeamRequest {
   uint32 season_id = 1;
   string name = 2;
+  bool is_active = 3;
 }
 
 message CreateTeamResponse {
   backend.common.v1.Team team = 1;
+}
+
+message UpdateTeamRequest {
+  uint32 team_id = 1;
+  uint32 season_id = 2;
+  string name = 3;
+  bool is_active = 4;
+}
+
+message UpdateTeamResponse {
+  backend.common.v1.Team team = 1;
+}
+
+message DeleteTeamRequest {
+  uint32 team_id = 1;
+}
+
+message DeleteTeamResponse {
+  bool deleted = 1;
 }
 
 message AddDriverToTeamRequest {
@@ -140,6 +315,14 @@ message UpdatePointSystemResponse {
   backend.common.v1.PointSystem point_system = 1;
 }
 
+message DeletePointSystemRequest {
+  uint32 point_system_id = 1;
+}
+
+message DeletePointSystemResponse {
+  bool deleted = 1;
+}
+
 message CreateTrackRequest {
   string name = 1;
   string country = 2;
@@ -152,6 +335,27 @@ message CreateTrackResponse {
   backend.common.v1.Track track = 1;
 }
 
+message UpdateTrackRequest {
+  uint32 track_id = 1;
+  string name = 2;
+  string country = 3;
+  double latitude = 4;
+  double longitude = 5;
+  string website_url = 6;
+}
+
+message UpdateTrackResponse {
+  backend.common.v1.Track track = 1;
+}
+
+message DeleteTrackRequest {
+  uint32 track_id = 1;
+}
+
+message DeleteTrackResponse {
+  bool deleted = 1;
+}
+
 message CreateTrackLayoutRequest {
   uint32 track_id = 1;
   string name = 2;
@@ -161,6 +365,26 @@ message CreateTrackLayoutRequest {
 
 message CreateTrackLayoutResponse {
   backend.common.v1.TrackLayout track_layout = 1;
+}
+
+message UpdateTrackLayoutRequest {
+  uint32 track_layout_id = 1;
+  uint32 track_id = 2;
+  string name = 3;
+  int32 length_meters = 4;
+  string layout_image_url = 5;
+}
+
+message UpdateTrackLayoutResponse {
+  backend.common.v1.TrackLayout track_layout = 1;
+}
+
+message DeleteTrackLayoutRequest {
+  uint32 track_layout_id = 1;
+}
+
+message DeleteTrackLayoutResponse {
+  bool deleted = 1;
 }
 
 message UpsertSimulationTrackLayoutAliasRequest {
@@ -181,13 +405,75 @@ message CreateCarManufacturerResponse {
   backend.common.v1.CarManufacturer car_manufacturer = 1;
 }
 
-message CreateCarModelRequest {
+message UpdateCarManufacturerRequest {
+  uint32 car_manufacturer_id = 1;
+  string name = 2;
+}
+
+message UpdateCarManufacturerResponse {
+  backend.common.v1.CarManufacturer car_manufacturer = 1;
+}
+
+message DeleteCarManufacturerRequest {
+  uint32 car_manufacturer_id = 1;
+}
+
+message DeleteCarManufacturerResponse {
+  bool deleted = 1;
+}
+
+message CreateCarBrandRequest {
   uint32 manufacturer_id = 1;
+  string name = 2;
+}
+
+message CreateCarBrandResponse {
+  backend.common.v1.CarBrand car_brand = 1;
+}
+
+message UpdateCarBrandRequest {
+  uint32 car_brand_id = 1;
+  uint32 manufacturer_id = 2;
+  string name = 3;
+}
+
+message UpdateCarBrandResponse {
+  backend.common.v1.CarBrand car_brand = 1;
+}
+
+message DeleteCarBrandRequest {
+  uint32 car_brand_id = 1;
+}
+
+message DeleteCarBrandResponse {
+  bool deleted = 1;
+}
+
+message CreateCarModelRequest {
+  uint32 brand_id = 1;
   string name = 2;
 }
 
 message CreateCarModelResponse {
   backend.common.v1.CarModel car_model = 1;
+}
+
+message UpdateCarModelRequest {
+  uint32 car_model_id = 1;
+  uint32 brand_id = 2;
+  string name = 3;
+}
+
+message UpdateCarModelResponse {
+  backend.common.v1.CarModel car_model = 1;
+}
+
+message DeleteCarModelRequest {
+  uint32 car_model_id = 1;
+}
+
+message DeleteCarModelResponse {
+  bool deleted = 1;
 }
 
 message UpsertSimulationCarAliasRequest {

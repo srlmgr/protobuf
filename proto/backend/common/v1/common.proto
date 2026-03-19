@@ -9,6 +9,7 @@ message Simulation {
   uint32 id = 1;
   string name = 2;
   bool is_active = 3;
+  repeated string supported_formats = 4;
 }
 
 message Series {
@@ -16,6 +17,7 @@ message Series {
   uint32 simulation_id = 2;
   string name = 3;
   string description = 4;
+  bool is_active = 5;
 }
 
 message Season {
@@ -50,12 +52,14 @@ message Driver {
   uint32 id = 1;
   uint32 external_id = 2;
   string name = 3;
+  bool is_active = 4;
 }
 
 message Team {
   uint32 id = 1;
   uint32 season_id = 2;
   string name = 3;
+  bool is_active = 4;
 }
 
 message PointRule {
@@ -94,9 +98,14 @@ message CarManufacturer {
   string name = 2;
 }
 
-message CarModel {
+message CarBrand {
   uint32 id = 1;
   uint32 manufacturer_id = 2;
+  string name = 3;
+}
+message CarModel {
+  uint32 id = 1;
+  uint32 brand_id = 2;
   string name = 3;
 }
 
