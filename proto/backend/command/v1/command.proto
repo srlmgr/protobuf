@@ -59,7 +59,7 @@ service CommandService {
 message CreateSimulationRequest {
   string name = 1;
   bool is_active = 2;
-  repeated string supported_formats = 3;
+  repeated backend.common.v1.ImportFormat supported_formats = 3;
 }
 
 message CreateSimulationResponse {
@@ -70,7 +70,7 @@ message UpdateSimulationRequest {
   uint32 simulation_id = 1;
   string name = 2;
   bool is_active = 3;
-  repeated string supported_formats = 4;
+  repeated backend.common.v1.ImportFormat supported_formats = 4;
 }
 
 message UpdateSimulationResponse {

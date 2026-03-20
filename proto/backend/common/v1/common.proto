@@ -9,7 +9,7 @@ message Simulation {
   uint32 id = 1;
   string name = 2;
   bool is_active = 3;
-  repeated string supported_formats = 4;
+  repeated ImportFormat supported_formats = 4;
 }
 
 message Series {

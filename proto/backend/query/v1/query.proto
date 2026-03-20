@@ -10,6 +10,18 @@ service QueryService {
   rpc GetEventResults(GetEventResultsRequest) returns (GetEventResultsResponse);
   rpc GetEventBookingEntries(GetEventBookingEntriesRequest) returns (GetEventBookingEntriesResponse);
 
+  rpc GetSimulation(GetSimulationRequest) returns (GetSimulationResponse);
+  rpc GetSeries(GetSeriesRequest) returns (GetSeriesResponse);
+  rpc GetSeason(GetSeasonRequest) returns (GetSeasonResponse);
+  rpc GetEvent(GetEventRequest) returns (GetEventResponse);
+  rpc GetDriver(GetDriverRequest) returns (GetDriverResponse);
+  rpc GetTeam(GetTeamRequest) returns (GetTeamResponse);
+  rpc GetPointSystem(GetPointSystemRequest) returns (GetPointSystemResponse);
+  rpc GetTrack(GetTrackRequest) returns (GetTrackResponse);
+  rpc GetTrackLayout(GetTrackLayoutRequest) returns (GetTrackLayoutResponse);
+  rpc GetCarManufacturer(GetCarManufacturerRequest) returns (GetCarManufacturerResponse);
+  rpc GetCarModel(GetCarModelRequest) returns (GetCarModelResponse);
+
   rpc ListSimulations(ListSimulationsRequest) returns (ListSimulationsResponse);
   rpc ListSeries(ListSeriesRequest) returns (ListSeriesResponse);
   rpc ListSeasons(ListSeasonsRequest) returns (ListSeasonsResponse);
@@ -56,6 +68,94 @@ message GetEventBookingEntriesRequest {
 
 message GetEventBookingEntriesResponse {
   repeated backend.common.v1.BookingEntry rows = 1;
+}
+
+message GetSimulationRequest {
+  uint32 id = 1;
+}
+
+message GetSimulationResponse {
+  backend.common.v1.Simulation simulation = 1;
+}
+
+message GetSeriesRequest {
+  uint32 id = 1;
+}
+
+message GetSeriesResponse {
+  backend.common.v1.Series series = 1;
+}
+
+message GetSeasonRequest {
+  uint32 id = 1;
+}
+
+message GetSeasonResponse {
+  backend.common.v1.Season season = 1;
+}
+
+message GetEventRequest {
+  uint32 id = 1;
+}
+
+message GetEventResponse {
+  backend.common.v1.Event event = 1;
+}
+
+message GetDriverRequest {
+  uint32 id = 1;
+}
+
+message GetDriverResponse {
+  backend.common.v1.Driver driver = 1;
+}
+
+message GetTeamRequest {
+  uint32 id = 1;
+}
+
+message GetTeamResponse {
+  backend.common.v1.Team team = 1;
+}
+
+message GetPointSystemRequest {
+  uint32 id = 1;
+}
+
+message GetPointSystemResponse {
+  backend.common.v1.PointSystem point_system = 1;
+}
+
+message GetTrackRequest {
+  uint32 id = 1;
+}
+
+message GetTrackResponse {
+  backend.common.v1.Track track = 1;
+}
+
+message GetTrackLayoutRequest {
+  uint32 id = 1;
+}
+
+message GetTrackLayoutResponse {
+  backend.common.v1.TrackLayout track_layout = 1;
+}
+
+message GetCarManufacturerRequest {
+  uint32 id = 1;
+}
+
+message GetCarManufacturerResponse {
+  backend.common.v1.CarManufacturer car_manufacturer = 1;
+}
+
+message GetCarModelRequest {
+  uint32 id = 1;
+}
+
+message GetCarModelResponse {
+  backend.common.v1.CarModel car_model = 1;
 }
 
 message ListSimulationsRequest {}
