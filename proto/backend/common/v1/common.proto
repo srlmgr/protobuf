@@ -36,8 +36,8 @@ message Event {
   uint32 track_layout_id = 3;
   string name = 4;
   google.protobuf.Timestamp event_date = 5;
-  string status = 6;
-  string processing_state = 7;
+  EventStatus status = 6;
+  EventProcessingState processing_state = 7;
 }
 
 message Race {
@@ -119,6 +119,7 @@ message ResultEntry {
   int32 fastest_lap_time_ms = 7;
   int32 incidents = 8;
   ResultState state = 9;
+  string admin_notes = 10;
 }
 
 message BookingEntry {
@@ -183,4 +184,18 @@ enum RaceSessionType {
   RACE_SESSION_TYPE_QUALIFYING = 1;
   RACE_SESSION_TYPE_HEAT = 2;
   RACE_SESSION_TYPE_RACE = 3;
+}
+enum EventStatus {
+  EVENT_STATUS_UNSPECIFIED = 0;
+  EVENT_STATUS_SCHEDULED = 1;
+  EVENT_STATUS_COMPLETED = 2;
+}
+enum EventProcessingState {
+  EVENT_PROCESSING_STATE_UNSPECIFIED = 0;
+  EVENT_PROCESSING_STATE_DRAFT = 1;
+  EVENT_PROCESSING_STATE_RAW_IMPORTED = 2;
+  EVENT_PROCESSING_STATE_PRE_PROCESSED = 3;
+  EVENT_PROCESSING_STATE_DRIVER_ENTRIES_PROCESSED = 4;
+  EVENT_PROCESSING_STATE_TEAM_ENTRIES_PROCESSED = 5;
+  EVENT_PROCESSING_STATE_FINALIZED = 6;
 }

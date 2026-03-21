@@ -19,6 +19,9 @@ service CommandService {
   rpc UpdateEvent(UpdateEventRequest) returns (UpdateEventResponse);
   rpc DeleteEvent(DeleteEventRequest) returns (DeleteEventResponse);
   rpc CreateRace(CreateRaceRequest) returns (CreateRaceResponse);
+  rpc CreateResultEntry(CreateResultEntryRequest) returns (CreateResultEntryResponse);
+  rpc UpdateResultEntry(UpdateResultEntryRequest) returns (UpdateResultEntryResponse);
+  rpc DeleteResultEntry(DeleteResultEntryRequest) returns (DeleteResultEntryResponse);
   rpc UpdateRace(UpdateRaceRequest) returns (UpdateRaceResponse);
   rpc DeleteRace(DeleteRaceRequest) returns (DeleteRaceResponse);
 
@@ -195,6 +198,47 @@ message CreateRaceRequest {
 
 message CreateRaceResponse {
   backend.common.v1.Race race = 1;
+}
+
+message CreateResultEntryRequest {
+  uint32 race_id = 1;
+  uint32 driver_id = 2;
+  uint32 car_model_id = 3;
+  int32 finishing_position = 4;
+  int32 completed_laps = 5;
+  int32 fastest_lap_time_ms = 6;
+  int32 incidents = 7;
+  backend.common.v1.ResultState state = 8;
+  string admin_notes = 9;
+}
+
+message CreateResultEntryResponse {
+  backend.common.v1.ResultEntry result_entry = 1;
+}
+
+message UpdateResultEntryRequest {
+  uint32 result_entry_id = 1;
+  uint32 race_id = 2;
+  uint32 driver_id = 3;
+  uint32 car_model_id = 4;
+  int32 finishing_position = 5;
+  int32 completed_laps = 6;
+  int32 fastest_lap_time_ms = 7;
+  int32 incidents = 8;
+  backend.common.v1.ResultState state = 9;
+  string admin_notes = 10;
+}
+
+message UpdateResultEntryResponse {
+  backend.common.v1.ResultEntry result_entry = 1;
+}
+
+message DeleteResultEntryRequest {
+  uint32 result_entry_id = 1;
+}
+
+message DeleteResultEntryResponse {
+  bool deleted = 1;
 }
 
 message UpdateRaceRequest {

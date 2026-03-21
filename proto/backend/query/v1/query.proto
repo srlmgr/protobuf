@@ -8,6 +8,7 @@ service QueryService {
   rpc GetDriverStandings(GetDriverStandingsRequest) returns (GetDriverStandingsResponse);
   rpc GetTeamStandings(GetTeamStandingsRequest) returns (GetTeamStandingsResponse);
   rpc GetEventResults(GetEventResultsRequest) returns (GetEventResultsResponse);
+  rpc GetResultEntry(GetResultEntryRequest) returns (GetResultEntryResponse);
   rpc GetEventBookingEntries(GetEventBookingEntriesRequest) returns (GetEventBookingEntriesResponse);
 
   rpc GetSimulation(GetSimulationRequest) returns (GetSimulationResponse);
@@ -64,6 +65,14 @@ message GetEventResultsRequest {
 
 message GetEventResultsResponse {
   repeated backend.common.v1.ResultEntry rows = 1;
+}
+
+message GetResultEntryRequest {
+  uint32 result_entry_id = 1;
+}
+
+message GetResultEntryResponse {
+  backend.common.v1.ResultEntry result_entry = 1;
 }
 
 message GetEventBookingEntriesRequest {
