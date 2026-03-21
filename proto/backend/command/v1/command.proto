@@ -189,7 +189,7 @@ message DeleteEventResponse {
 message CreateRaceRequest {
   uint32 event_id = 1;
   string name = 2;
-  string session_type = 3;
+  backend.common.v1.RaceSessionType session_type = 3;
   int32 sequence_no = 4;
 }
 
@@ -201,7 +201,7 @@ message UpdateRaceRequest {
   uint32 race_id = 1;
   uint32 event_id = 2;
   string name = 3;
-  string session_type = 4;
+  backend.common.v1.RaceSessionType session_type = 4;
   int32 sequence_no = 5;
 }
 
@@ -218,7 +218,7 @@ message DeleteRaceResponse {
 }
 
 message CreateDriverRequest {
-  uint32 external_id = 1;
+  string external_id = 1;
   string name = 2;
   bool is_active = 3;
 }
@@ -229,7 +229,7 @@ message CreateDriverResponse {
 
 message UpdateDriverRequest {
   uint32 driver_id = 1;
-  uint32 external_id = 2;
+  string external_id = 2;
   string name = 3;
   bool is_active = 4;
 }

@@ -44,13 +44,13 @@ message Race {
   uint32 id = 1;
   uint32 event_id = 2;
   string name = 3;
-  string session_type = 4;
+  RaceSessionType session_type = 4;
   int32 sequence_no = 5;
 }
 
 message Driver {
   uint32 id = 1;
-  uint32 external_id = 2;
+  string external_id = 2;
   string name = 3;
   bool is_active = 4;
 }
@@ -176,4 +176,11 @@ enum ImportFormat {
   IMPORT_FORMAT_UNSPECIFIED = 0;
   IMPORT_FORMAT_JSON = 1;
   IMPORT_FORMAT_CSV = 2;
+}
+
+enum RaceSessionType {
+  RACE_SESSION_TYPE_UNSPECIFIED = 0;
+  RACE_SESSION_TYPE_QUALIFYING = 1;
+  RACE_SESSION_TYPE_HEAT = 2;
+  RACE_SESSION_TYPE_RACE = 3;
 }

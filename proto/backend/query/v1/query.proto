@@ -14,24 +14,28 @@ service QueryService {
   rpc GetSeries(GetSeriesRequest) returns (GetSeriesResponse);
   rpc GetSeason(GetSeasonRequest) returns (GetSeasonResponse);
   rpc GetEvent(GetEventRequest) returns (GetEventResponse);
+  rpc GetRace(GetRaceRequest) returns (GetRaceResponse);
   rpc GetDriver(GetDriverRequest) returns (GetDriverResponse);
   rpc GetTeam(GetTeamRequest) returns (GetTeamResponse);
   rpc GetPointSystem(GetPointSystemRequest) returns (GetPointSystemResponse);
   rpc GetTrack(GetTrackRequest) returns (GetTrackResponse);
   rpc GetTrackLayout(GetTrackLayoutRequest) returns (GetTrackLayoutResponse);
   rpc GetCarManufacturer(GetCarManufacturerRequest) returns (GetCarManufacturerResponse);
+  rpc GetCarBrand(GetCarBrandRequest) returns (GetCarBrandResponse);
   rpc GetCarModel(GetCarModelRequest) returns (GetCarModelResponse);
 
   rpc ListSimulations(ListSimulationsRequest) returns (ListSimulationsResponse);
   rpc ListSeries(ListSeriesRequest) returns (ListSeriesResponse);
   rpc ListSeasons(ListSeasonsRequest) returns (ListSeasonsResponse);
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
+  rpc ListRaces(ListRacesRequest) returns (ListRacesResponse);
   rpc ListDrivers(ListDriversRequest) returns (ListDriversResponse);
   rpc ListTeams(ListTeamsRequest) returns (ListTeamsResponse);
   rpc ListPointSystems(ListPointSystemsRequest) returns (ListPointSystemsResponse);
   rpc ListTracks(ListTracksRequest) returns (ListTracksResponse);
   rpc ListTrackLayouts(ListTrackLayoutsRequest) returns (ListTrackLayoutsResponse);
   rpc ListCarManufacturers(ListCarManufacturersRequest) returns (ListCarManufacturersResponse);
+  rpc ListCarBrands(ListCarBrandsRequest) returns (ListCarBrandsResponse);
   rpc ListCarModels(ListCarModelsRequest) returns (ListCarModelsResponse);
 }
 
@@ -102,6 +106,14 @@ message GetEventResponse {
   backend.common.v1.Event event = 1;
 }
 
+message GetRaceRequest {
+  uint32 id = 1;
+}
+
+message GetRaceResponse {
+  backend.common.v1.Race race = 1;
+}
+
 message GetDriverRequest {
   uint32 id = 1;
 }
@@ -150,6 +162,14 @@ message GetCarManufacturerResponse {
   backend.common.v1.CarManufacturer car_manufacturer = 1;
 }
 
+message GetCarBrandRequest {
+  uint32 id = 1;
+}
+
+message GetCarBrandResponse {
+  backend.common.v1.CarBrand car_brand = 1;
+}
+
 message GetCarModelRequest {
   uint32 id = 1;
 }
@@ -186,6 +206,14 @@ message ListEventsRequest {
 
 message ListEventsResponse {
   repeated backend.common.v1.Event items = 1;
+}
+
+message ListRacesRequest {
+  uint32 event_id = 1;
+}
+
+message ListRacesResponse {
+  repeated backend.common.v1.Race items = 1;
 }
 
 message ListDriversRequest {}
@@ -226,6 +254,14 @@ message ListCarManufacturersRequest {}
 
 message ListCarManufacturersResponse {
   repeated backend.common.v1.CarManufacturer items = 1;
+}
+
+message ListCarBrandsRequest {
+  uint32 manufacturer_id = 1;
+}
+
+message ListCarBrandsResponse {
+  repeated backend.common.v1.CarBrand items = 1;
 }
 
 message ListCarModelsRequest {
