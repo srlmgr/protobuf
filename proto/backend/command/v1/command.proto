@@ -28,7 +28,7 @@ service CommandService {
   rpc CreateDriver(CreateDriverRequest) returns (CreateDriverResponse);
   rpc UpdateDriver(UpdateDriverRequest) returns (UpdateDriverResponse);
   rpc DeleteDriver(DeleteDriverRequest) returns (DeleteDriverResponse);
-  rpc UpsertDriverSimulationIdentity(UpsertDriverSimulationIdentityRequest) returns (UpsertDriverSimulationIdentityResponse);
+  rpc SetSimulationDriverAliases(SetSimulationDriverAliasesRequest) returns (SetSimulationDriverAliasesResponse);
 
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse);
   rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse);
@@ -45,7 +45,7 @@ service CommandService {
   rpc CreateTrackLayout(CreateTrackLayoutRequest) returns (CreateTrackLayoutResponse);
   rpc UpdateTrackLayout(UpdateTrackLayoutRequest) returns (UpdateTrackLayoutResponse);
   rpc DeleteTrackLayout(DeleteTrackLayoutRequest) returns (DeleteTrackLayoutResponse);
-  rpc UpsertSimulationTrackLayoutAlias(UpsertSimulationTrackLayoutAliasRequest) returns (UpsertSimulationTrackLayoutAliasResponse);
+  rpc SetSimulationTrackLayoutAliases(SetSimulationTrackLayoutAliasesRequest) returns (SetSimulationTrackLayoutAliasesResponse);
 
   rpc CreateCarManufacturer(CreateCarManufacturerRequest) returns (CreateCarManufacturerResponse);
   rpc UpdateCarManufacturer(UpdateCarManufacturerRequest) returns (UpdateCarManufacturerResponse);
@@ -56,7 +56,7 @@ service CommandService {
   rpc CreateCarModel(CreateCarModelRequest) returns (CreateCarModelResponse);
   rpc UpdateCarModel(UpdateCarModelRequest) returns (UpdateCarModelResponse);
   rpc DeleteCarModel(DeleteCarModelRequest) returns (DeleteCarModelResponse);
-  rpc UpsertSimulationCarAlias(UpsertSimulationCarAliasRequest) returns (UpsertSimulationCarAliasResponse);
+  rpc SetSimulationCarAliases(SetSimulationCarAliasesRequest) returns (SetSimulationCarAliasesResponse);
 }
 
 message CreateSimulationRequest {
@@ -159,8 +159,8 @@ message CreateEventRequest {
   uint32 track_layout_id = 2;
   string name = 3;
   google.protobuf.Timestamp event_date = 4;
-  string status = 5;
-  string processing_state = 6;
+  backend.common.v1.EventStatus status = 5;
+  backend.common.v1.EventProcessingState processing_state = 6;
 }
 
 message CreateEventResponse {
@@ -173,8 +173,8 @@ message UpdateEventRequest {
   uint32 track_layout_id = 3;
   string name = 4;
   google.protobuf.Timestamp event_date = 5;
-  string status = 6;
-  string processing_state = 7;
+  backend.common.v1.EventStatus status = 6;
+  backend.common.v1.EventProcessingState processing_state = 7;
 }
 
 message UpdateEventResponse {
@@ -290,13 +290,13 @@ message DeleteDriverResponse {
   bool deleted = 1;
 }
 
-message UpsertDriverSimulationIdentityRequest {
+message SetSimulationDriverAliasesRequest {
   uint32 driver_id = 1;
   uint32 simulation_id = 2;
-  uint32 simulation_driver_id = 3;
+  repeated string simulation_driver_id = 3;
 }
 
-message UpsertDriverSimulationIdentityResponse {
+message SetSimulationDriverAliasesResponse {
   bool updated = 1;
 }
 
@@ -431,13 +431,13 @@ message DeleteTrackLayoutResponse {
   bool deleted = 1;
 }
 
-message UpsertSimulationTrackLayoutAliasRequest {
+message SetSimulationTrackLayoutAliasesRequest {
   uint32 track_layout_id = 1;
   uint32 simulation_id = 2;
-  string external_name = 3;
+  repeated string external_name = 3;
 }
 
-message UpsertSimulationTrackLayoutAliasResponse {
+message SetSimulationTrackLayoutAliasesResponse {
   bool updated = 1;
 }
 
@@ -520,12 +520,12 @@ message DeleteCarModelResponse {
   bool deleted = 1;
 }
 
-message UpsertSimulationCarAliasRequest {
+message SetSimulationCarAliasesRequest {
   uint32 car_model_id = 1;
   uint32 simulation_id = 2;
-  string external_name = 3;
+  repeated string external_name = 3;
 }
 
-message UpsertSimulationCarAliasResponse {
+message SetSimulationCarAliasesResponse {
   bool updated = 1;
 }
