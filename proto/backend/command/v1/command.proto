@@ -56,6 +56,10 @@ service CommandService {
   rpc CreateCarModel(CreateCarModelRequest) returns (CreateCarModelResponse);
   rpc UpdateCarModel(UpdateCarModelRequest) returns (UpdateCarModelResponse);
   rpc DeleteCarModel(DeleteCarModelRequest) returns (DeleteCarModelResponse);
+  rpc CreateCarClass(CreateCarClassRequest) returns (CreateCarClassResponse);
+  rpc UpdateCarClass(UpdateCarClassRequest) returns (UpdateCarClassResponse);
+  rpc DeleteCarClass(DeleteCarClassRequest) returns (DeleteCarClassResponse);
+
   rpc SetSimulationCarAliases(SetSimulationCarAliasesRequest) returns (SetSimulationCarAliasesResponse);
 }
 
@@ -208,7 +212,7 @@ message CreateResultEntryRequest {
   int32 completed_laps = 5;
   int32 fastest_lap_time_ms = 6;
   int32 incidents = 7;
-  backend.common.v1.ResultState state = 8;
+  backend.common.v1.ResultEntryState state = 8;
   string admin_notes = 9;
 }
 
@@ -225,7 +229,7 @@ message UpdateResultEntryRequest {
   int32 completed_laps = 6;
   int32 fastest_lap_time_ms = 7;
   int32 incidents = 8;
-  backend.common.v1.ResultState state = 9;
+  backend.common.v1.ResultEntryState state = 9;
   string admin_notes = 10;
 }
 
@@ -517,6 +521,31 @@ message DeleteCarModelRequest {
 }
 
 message DeleteCarModelResponse {
+  bool deleted = 1;
+}
+
+message CreateCarClassRequest {
+  string name = 1;
+}
+
+message CreateCarClassResponse {
+  backend.common.v1.CarClass car_class = 1;
+}
+
+message UpdateCarClassRequest {
+  uint32 car_class_id = 1;
+  string name = 2;
+}
+
+message UpdateCarClassResponse {
+  backend.common.v1.CarClass car_class = 1;
+}
+
+message DeleteCarClassRequest {
+  uint32 car_class_id = 1;
+}
+
+message DeleteCarClassResponse {
   bool deleted = 1;
 }
 

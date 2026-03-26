@@ -5,17 +5,17 @@ package backend.admin.v1;
 import "backend/common/v1/common.proto";
 
 service AdminService {
-  rpc MarkResultState(MarkResultStateRequest) returns (MarkResultStateResponse); // for DQ and similar states
+  rpc MarkResultEntryState(MarkResultEntryStateRequest) returns (MarkResultEntryStateResponse); // for DQ and similar states
   rpc UpdateBookingEntryPoints(UpdateBookingEntryPointsRequest) returns (UpdateBookingEntryPointsResponse);
   rpc CreateManualBookingEntry(CreateManualBookingEntryRequest) returns (CreateManualBookingEntryResponse);
 }
 
-message MarkResultStateRequest {
+message MarkResultEntryStateRequest {
   uint32 result_entry_id = 1;
-  backend.common.v1.ResultState state = 2;
+  backend.common.v1.ResultEntryState state = 2;
 }
 
-message MarkResultStateResponse {
+message MarkResultEntryStateResponse {
   backend.common.v1.ResultEntry result_entry = 1;
 }
 

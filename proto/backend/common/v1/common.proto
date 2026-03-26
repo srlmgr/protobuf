@@ -108,18 +108,31 @@ message CarModel {
   uint32 brand_id = 2;
   string name = 3;
 }
+message CarClass {
+  uint32 id = 1;
+  string name = 2;
+}
 
 message ResultEntry {
   uint32 id = 1;
   uint32 race_id = 2;
   uint32 driver_id = 3;
-  uint32 car_model_id = 4;
-  int32 finishing_position = 5;
-  int32 completed_laps = 6;
-  int32 fastest_lap_time_ms = 7;
-  int32 incidents = 8;
-  ResultState state = 9;
-  string admin_notes = 10;
+  uint32 team_id = 4;
+  uint32 car_model_id = 5;
+  uint32 car_class_id = 6;
+  string car_number = 7;
+  int32 starting_position = 8;
+  int32 finishing_position = 9;
+  int32 completed_laps = 10;
+  int32 quali_time_ms = 11;
+  int32 fastest_lap_time_ms = 12;
+  int32 incidents = 13;
+  int32 total_time_ms = 14;
+  ResultEntryState state = 15;
+  string admin_notes = 16;
+  string raw_driver_name = 17;
+  string raw_team_name = 18;
+  bool is_guest_driver = 19;
 }
 
 message BookingEntry {
@@ -154,11 +167,11 @@ message UnresolvedMapping {
 }
 
 // Enums
-enum ResultState {
-  RESULT_STATE_UNSPECIFIED = 0;
-  RESULT_STATE_MAPPING_ERROR = 1;
-  RESULT_STATE_NORMAL = 2;
-  RESULT_STATE_DQ = 3;
+enum ResultEntryState {
+  RESULT_ENTRY_STATE_UNSPECIFIED = 0;
+  RESULT_ENTRY_STATE_MAPPING_ERROR = 1;
+  RESULT_ENTRY_STATE_NORMAL = 2;
+  RESULT_ENTRY_STATE_DQ = 3;
 }
 
 enum BookingTargetType {

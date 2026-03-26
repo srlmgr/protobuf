@@ -24,6 +24,7 @@ service QueryService {
   rpc GetCarManufacturer(GetCarManufacturerRequest) returns (GetCarManufacturerResponse);
   rpc GetCarBrand(GetCarBrandRequest) returns (GetCarBrandResponse);
   rpc GetCarModel(GetCarModelRequest) returns (GetCarModelResponse);
+  rpc GetCarClass(GetCarClassRequest) returns (GetCarClassResponse);
 
   rpc ListSimulations(ListSimulationsRequest) returns (ListSimulationsResponse);
   rpc ListSeries(ListSeriesRequest) returns (ListSeriesResponse);
@@ -38,6 +39,7 @@ service QueryService {
   rpc ListCarManufacturers(ListCarManufacturersRequest) returns (ListCarManufacturersResponse);
   rpc ListCarBrands(ListCarBrandsRequest) returns (ListCarBrandsResponse);
   rpc ListCarModels(ListCarModelsRequest) returns (ListCarModelsResponse);
+  rpc ListCarClasses(ListCarClassesRequest) returns (ListCarClassesResponse);
 }
 
 message GetDriverStandingsRequest {
@@ -187,6 +189,14 @@ message GetCarModelResponse {
   backend.common.v1.CarModel car_model = 1;
 }
 
+message GetCarClassRequest {
+  uint32 id = 1;
+}
+
+message GetCarClassResponse {
+  backend.common.v1.CarClass car_class = 1;
+}
+
 message ListSimulationsRequest {}
 
 message ListSimulationsResponse {
@@ -279,4 +289,10 @@ message ListCarModelsRequest {
 
 message ListCarModelsResponse {
   repeated backend.common.v1.CarModel items = 1;
+}
+
+message ListCarClassesRequest {}
+
+message ListCarClassesResponse {
+  repeated backend.common.v1.CarClass items = 1;
 }
