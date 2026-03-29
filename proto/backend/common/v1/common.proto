@@ -47,6 +47,13 @@ message Race {
   RaceSessionType session_type = 4;
   int32 sequence_no = 5;
 }
+message RaceGrid {
+  uint32 id = 1;
+  uint32 race_id = 2;
+  string name = 3;
+  RaceSessionType session_type = 4;
+  int32 sequence_no = 5;
+}
 
 message Driver {
   uint32 id = 1;

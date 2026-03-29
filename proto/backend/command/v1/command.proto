@@ -24,6 +24,9 @@ service CommandService {
   rpc DeleteResultEntry(DeleteResultEntryRequest) returns (DeleteResultEntryResponse);
   rpc UpdateRace(UpdateRaceRequest) returns (UpdateRaceResponse);
   rpc DeleteRace(DeleteRaceRequest) returns (DeleteRaceResponse);
+  rpc CreateRaceGrid(CreateRaceGridRequest) returns (CreateRaceGridResponse);
+  rpc UpdateRaceGrid(UpdateRaceGridRequest) returns (UpdateRaceGridResponse);
+  rpc DeleteRaceGrid(DeleteRaceGridRequest) returns (DeleteRaceGridResponse);
 
   rpc CreateDriver(CreateDriverRequest) returns (CreateDriverResponse);
   rpc UpdateDriver(UpdateDriverRequest) returns (UpdateDriverResponse);
@@ -202,6 +205,32 @@ message CreateRaceRequest {
 
 message CreateRaceResponse {
   backend.common.v1.Race race = 1;
+}
+message CreateRaceGridRequest {
+  uint32 race_id = 1;
+  string name = 2;
+  backend.common.v1.RaceSessionType session_type = 3;
+  int32 sequence_no = 4;
+}
+
+message CreateRaceGridResponse {
+  backend.common.v1.RaceGrid race_grid = 1;
+}
+message UpdateRaceGridRequest {
+  uint32 race_grid_id = 1;
+  string name = 2;
+  backend.common.v1.RaceSessionType session_type = 3;
+  int32 sequence_no = 4;
+}
+message UpdateRaceGridResponse {
+  backend.common.v1.RaceGrid race_grid = 1;
+}
+
+message DeleteRaceGridRequest {
+  uint32 race_grid_id = 1;
+}
+message DeleteRaceGridResponse {
+  bool deleted = 1;
 }
 
 message CreateResultEntryRequest {

@@ -31,6 +31,7 @@ service QueryService {
   rpc ListSeasons(ListSeasonsRequest) returns (ListSeasonsResponse);
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
   rpc ListRaces(ListRacesRequest) returns (ListRacesResponse);
+  rpc ListRaceGrids(ListRaceGridsRequest) returns (ListRaceGridsResponse);
   rpc ListDrivers(ListDriversRequest) returns (ListDriversResponse);
   rpc ListTeams(ListTeamsRequest) returns (ListTeamsResponse);
   rpc ListPointSystems(ListPointSystemsRequest) returns (ListPointSystemsResponse);
@@ -233,6 +234,13 @@ message ListRacesRequest {
 
 message ListRacesResponse {
   repeated backend.common.v1.Race items = 1;
+}
+message ListRaceGridsRequest {
+  uint32 race_id = 1;
+}
+
+message ListRaceGridsResponse {
+  repeated backend.common.v1.RaceGrid items = 1;
 }
 
 message ListDriversRequest {}
