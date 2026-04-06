@@ -10,6 +10,8 @@ service QueryService {
   rpc GetEventResults(GetEventResultsRequest) returns (GetEventResultsResponse);
   rpc GetResultEntry(GetResultEntryRequest) returns (GetResultEntryResponse);
   rpc GetEventBookingEntries(GetEventBookingEntriesRequest) returns (GetEventBookingEntriesResponse);
+  rpc GetSummary(GetSummaryRequest) returns (GetSummaryResponse);
+  rpc GetStandingsContributions(GetStandingsContributionsRequest) returns (GetStandingsContributionsResponse);
 
   rpc GetSimulation(GetSimulationRequest) returns (GetSimulationResponse);
   rpc GetSeries(GetSeriesRequest) returns (GetSeriesResponse);
@@ -198,6 +200,21 @@ message GetCarClassResponse {
   backend.common.v1.CarClass car_class = 1;
 }
 
+message GetSummaryRequest {
+  backend.common.v1.SummarySelector selector = 1;
+}
+
+message GetSummaryResponse {
+  repeated backend.common.v1.Summary summaries = 1;
+}
+
+message GetStandingsContributionsRequest {
+  uint32 season_id = 1;
+}
+message GetStandingsContributionsResponse {
+  repeated backend.common.v1.StandingsContribution contributions = 1;
+}
+
 message ListSimulationsRequest {}
 
 message ListSimulationsResponse {
@@ -243,7 +260,16 @@ message ListRaceGridsResponse {
   repeated backend.common.v1.RaceGrid items = 1;
 }
 
-message ListDriversRequest {}
+message ListDriversRequest {
+  oneof filter {
+    uint32 season_id = 1;
+    uint32 team_id = 2;
+    ListMultipleDrivers multiple_drivers = 3;
+  }
+}
+message ListMultipleDrivers {
+  repeated uint32 driver_ids = 1;
+}
 
 message ListDriversResponse {
   repeated backend.common.v1.Driver items = 1;

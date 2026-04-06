@@ -16,18 +16,18 @@ service ImportService {
 }
 
 message UploadResultsFileRequest {
-  uint32 race_id = 1;
+  uint32 race_grid_id = 1;
   backend.common.v1.ImportFormat import_format = 2;
   bytes payload = 3;
 }
 
 message UploadResultsFileResponse {
-  uint32 race_id = 1;
+  uint32 race_grid_id = 1;
   string processing_state = 2;
 }
 
 message ResolveMappingsRequest {
-  uint32 race_id = 1;
+  uint32 race_grid_id = 1;
 }
 
 message ResolveMappingsResponse {
@@ -35,7 +35,7 @@ message ResolveMappingsResponse {
 }
 
 message GetPreprocessPreviewRequest {
-  uint32 race_id = 1;
+  uint32 race_grid_id = 1;
 }
 
 message GetPreprocessPreviewResponse {
@@ -44,7 +44,7 @@ message GetPreprocessPreviewResponse {
 }
 
 message ApplyResultEditsRequest {
-  uint32 race_id = 1;
+  uint32 race_grid_id = 1;
   repeated backend.common.v1.ResultEntry edited_rows = 2;
 }
 

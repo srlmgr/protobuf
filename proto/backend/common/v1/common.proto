@@ -25,9 +25,12 @@ message Season {
   uint32 series_id = 2;
   string name = 3;
   uint32 point_system_id = 4;
-  bool has_teams = 5;
-  int32 skip_events = 6;
-  string status = 7;
+  int32 skip_events = 5;
+  bool has_teams = 6; // uses team standings (in addition to driver standings)
+  bool is_team_based = 7; // use teams instead of drivers for points and standings
+  int32 team_points_top_n = 8; // use top N team driver results for team standings
+  bool is_multiclass = 9;
+  string status = 10;
 }
 
 message Event {
@@ -35,9 +38,10 @@ message Event {
   uint32 season_id = 2;
   uint32 track_layout_id = 3;
   string name = 4;
-  google.protobuf.Timestamp event_date = 5;
-  EventStatus status = 6;
-  EventProcessingState processing_state = 7;
+  uint32 sequence_no = 5;
+  google.protobuf.Timestamp event_date = 6;
+  EventStatus status = 7;
+  EventProcessingState processing_state = 8;
 }
 
 message Race {
@@ -122,7 +126,7 @@ message CarClass {
 
 message ResultEntry {
   uint32 id = 1;
-  uint32 race_id = 2;
+  uint32 race_grid_id = 2;
   uint32 driver_id = 3;
   uint32 team_id = 4;
   uint32 car_model_id = 5;
@@ -150,6 +154,28 @@ message BookingEntry {
   BookingSourceType source_type = 5;
   int32 points = 6;
   string description = 7;
+}
+
+message StandingsContribution {
+  uint32 sequence_no = 1;
+  int32 points = 2;
+  int32 bonus_points = 3;
+  int32 total_points = 4;
+  bool is_dropped = 5;
+}
+message SummarySelector {
+  oneof scope {
+    uint32 event_id = 1;
+    uint32 race_id = 2;
+  }
+  SummaryTargetType type = 3;
+}
+
+message Summary {
+  uint32 reference_id = 1;
+  int32 points = 2;
+  int32 bonus_points = 3;
+  int32 total_points = 4;
 }
 
 message DriverStanding {
@@ -192,6 +218,11 @@ enum BookingSourceType {
   BOOKING_SOURCE_TYPE_POSITION = 1;
   BOOKING_SOURCE_TYPE_BONUS = 2;
   BOOKING_SOURCE_TYPE_MANUAL_ADJUSTMENT = 3;
+}
+enum SummaryTargetType {
+  SUMMARY_TARGET_TYPE_UNSPECIFIED = 0;
+  SUMMARY_TARGET_TYPE_DRIVER = 1;
+  SUMMARY_TARGET_TYPE_TEAM = 2;
 }
 
 enum ImportFormat {

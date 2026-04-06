@@ -19,11 +19,11 @@ service CommandService {
   rpc UpdateEvent(UpdateEventRequest) returns (UpdateEventResponse);
   rpc DeleteEvent(DeleteEventRequest) returns (DeleteEventResponse);
   rpc CreateRace(CreateRaceRequest) returns (CreateRaceResponse);
+  rpc UpdateRace(UpdateRaceRequest) returns (UpdateRaceResponse);
+  rpc DeleteRace(DeleteRaceRequest) returns (DeleteRaceResponse);
   rpc CreateResultEntry(CreateResultEntryRequest) returns (CreateResultEntryResponse);
   rpc UpdateResultEntry(UpdateResultEntryRequest) returns (UpdateResultEntryResponse);
   rpc DeleteResultEntry(DeleteResultEntryRequest) returns (DeleteResultEntryResponse);
-  rpc UpdateRace(UpdateRaceRequest) returns (UpdateRaceResponse);
-  rpc DeleteRace(DeleteRaceRequest) returns (DeleteRaceResponse);
   rpc CreateRaceGrid(CreateRaceGridRequest) returns (CreateRaceGridResponse);
   rpc UpdateRaceGrid(UpdateRaceGridRequest) returns (UpdateRaceGridResponse);
   rpc DeleteRaceGrid(DeleteRaceGridRequest) returns (DeleteRaceGridResponse);
@@ -36,7 +36,9 @@ service CommandService {
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse);
   rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse);
   rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse);
-  rpc AddDriverToTeam(AddDriverToTeamRequest) returns (AddDriverToTeamResponse);
+  rpc SetTeamMembers(SetTeamMembersRequest) returns (SetTeamMembersResponse);
+  rpc AddTeamMember(AddTeamMemberRequest) returns (AddTeamMemberResponse);
+  rpc RemoveTeamMember(RemoveTeamMemberRequest) returns (RemoveTeamMemberResponse);
 
   rpc CreatePointSystem(CreatePointSystemRequest) returns (CreatePointSystemResponse);
   rpc UpdatePointSystem(UpdatePointSystemRequest) returns (UpdatePointSystemResponse);
@@ -62,6 +64,7 @@ service CommandService {
   rpc CreateCarClass(CreateCarClassRequest) returns (CreateCarClassResponse);
   rpc UpdateCarClass(UpdateCarClassRequest) returns (UpdateCarClassResponse);
   rpc DeleteCarClass(DeleteCarClassRequest) returns (DeleteCarClassResponse);
+  rpc AssignCarModelToCarClass(AssignCarModelToCarClassRequest) returns (AssignCarModelToCarClassResponse);
 
   rpc SetSimulationCarAliases(SetSimulationCarAliasesRequest) returns (SetSimulationCarAliasesResponse);
 }
@@ -130,9 +133,12 @@ message CreateSeasonRequest {
   uint32 series_id = 1;
   string name = 2;
   uint32 point_system_id = 3;
-  bool has_teams = 4;
-  int32 skip_events = 5;
-  string status = 6;
+  int32 skip_events = 4;
+  bool has_teams = 5; // uses team standings (in addition to driver standings)
+  bool is_team_based = 6; // use teams instead of drivers for points and standings
+  int32 team_points_top_n = 7; // use top N team driver results for team standings
+  bool is_multiclass = 8;
+  string status = 9;
 }
 
 message CreateSeasonResponse {
@@ -141,12 +147,14 @@ message CreateSeasonResponse {
 
 message UpdateSeasonRequest {
   uint32 season_id = 1;
-  uint32 series_id = 2;
-  string name = 3;
-  uint32 point_system_id = 4;
-  bool has_teams = 5;
-  int32 skip_events = 6;
-  string status = 7;
+  string name = 2;
+  uint32 point_system_id = 3;
+  int32 skip_events = 4;
+  bool has_teams = 5; // uses team standings (in addition to driver standings)
+  bool is_team_based = 6; // use teams instead of drivers for points and standings
+  int32 team_points_top_n = 7; // use top N team driver results for team standings
+  bool is_multiclass = 8;
+  string status = 9;
 }
 
 message UpdateSeasonResponse {
@@ -165,9 +173,10 @@ message CreateEventRequest {
   uint32 season_id = 1;
   uint32 track_layout_id = 2;
   string name = 3;
-  google.protobuf.Timestamp event_date = 4;
-  backend.common.v1.EventStatus status = 5;
-  backend.common.v1.EventProcessingState processing_state = 6;
+  uint32 sequence_no = 4;
+  google.protobuf.Timestamp event_date = 5;
+  backend.common.v1.EventStatus status = 6;
+  backend.common.v1.EventProcessingState processing_state = 7;
 }
 
 message CreateEventResponse {
@@ -179,9 +188,10 @@ message UpdateEventRequest {
   uint32 season_id = 2;
   uint32 track_layout_id = 3;
   string name = 4;
-  google.protobuf.Timestamp event_date = 5;
-  backend.common.v1.EventStatus status = 6;
-  backend.common.v1.EventProcessingState processing_state = 7;
+  uint32 sequence_no = 5;
+  google.protobuf.Timestamp event_date = 6;
+  backend.common.v1.EventStatus status = 7;
+  backend.common.v1.EventProcessingState processing_state = 8;
 }
 
 message UpdateEventResponse {
@@ -206,6 +216,26 @@ message CreateRaceRequest {
 message CreateRaceResponse {
   backend.common.v1.Race race = 1;
 }
+message UpdateRaceRequest {
+  uint32 race_id = 1;
+  uint32 event_id = 2;
+  string name = 3;
+  backend.common.v1.RaceSessionType session_type = 4;
+  int32 sequence_no = 5;
+}
+
+message UpdateRaceResponse {
+  backend.common.v1.Race race = 1;
+}
+
+message DeleteRaceRequest {
+  uint32 race_id = 1;
+}
+
+message DeleteRaceResponse {
+  bool deleted = 1;
+}
+
 message CreateRaceGridRequest {
   uint32 race_id = 1;
   string name = 2;
@@ -234,7 +264,7 @@ message DeleteRaceGridResponse {
 }
 
 message CreateResultEntryRequest {
-  uint32 race_id = 1;
+  uint32 race_grid_id = 1;
   uint32 driver_id = 2;
   uint32 car_model_id = 3;
   int32 finishing_position = 4;
@@ -251,7 +281,7 @@ message CreateResultEntryResponse {
 
 message UpdateResultEntryRequest {
   uint32 result_entry_id = 1;
-  uint32 race_id = 2;
+  uint32 race_grid_id = 2;
   uint32 driver_id = 3;
   uint32 car_model_id = 4;
   int32 finishing_position = 5;
@@ -271,26 +301,6 @@ message DeleteResultEntryRequest {
 }
 
 message DeleteResultEntryResponse {
-  bool deleted = 1;
-}
-
-message UpdateRaceRequest {
-  uint32 race_id = 1;
-  uint32 event_id = 2;
-  string name = 3;
-  backend.common.v1.RaceSessionType session_type = 4;
-  int32 sequence_no = 5;
-}
-
-message UpdateRaceResponse {
-  backend.common.v1.Race race = 1;
-}
-
-message DeleteRaceRequest {
-  uint32 race_id = 1;
-}
-
-message DeleteRaceResponse {
   bool deleted = 1;
 }
 
@@ -362,14 +372,23 @@ message DeleteTeamResponse {
   bool deleted = 1;
 }
 
-message AddDriverToTeamRequest {
+message SetTeamMembersRequest {
+  uint32 team_id = 1;
+  repeated uint32 driver_ids = 2;
+}
+
+message SetTeamMembersResponse {}
+
+message AddTeamMemberRequest {
   uint32 team_id = 1;
   uint32 driver_id = 2;
 }
-
-message AddDriverToTeamResponse {
-  backend.common.v1.Team team = 1;
+message AddTeamMemberResponse {}
+message RemoveTeamMemberRequest {
+  uint32 team_id = 1;
+  uint32 driver_id = 2;
 }
+message RemoveTeamMemberResponse {}
 
 message CreatePointSystemRequest {
   string name = 1;
@@ -577,6 +596,12 @@ message DeleteCarClassRequest {
 message DeleteCarClassResponse {
   bool deleted = 1;
 }
+message AssignCarModelToCarClassRequest {
+  uint32 car_model_id = 1;
+  uint32 car_class_id = 2;
+}
+
+message AssignCarModelToCarClassResponse {}
 
 message SetSimulationCarAliasesRequest {
   uint32 car_model_id = 1;
