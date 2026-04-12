@@ -10,8 +10,9 @@ service ImportService {
   rpc GetPreprocessPreview(GetPreprocessPreviewRequest) returns (GetPreprocessPreviewResponse);
   rpc ApplyResultEdits(ApplyResultEditsRequest) returns (ApplyResultEditsResponse);
 
-  rpc ComputeDriverBookingEntries(ComputeDriverBookingEntriesRequest) returns (ComputeDriverBookingEntriesResponse);
-  rpc ComputeTeamBookingEntries(ComputeTeamBookingEntriesRequest) returns (ComputeTeamBookingEntriesResponse);
+  rpc ComputeBookingEntries(ComputeBookingEntriesRequest) returns (ComputeBookingEntriesResponse);
+  rpc AddPenalty(AddPenaltyRequest) returns (AddPenaltyResponse);
+  rpc DeletePenalty(DeletePenaltyRequest) returns (DeletePenaltyResponse);
   rpc FinalizeEventProcessing(FinalizeEventProcessingRequest) returns (FinalizeEventProcessingResponse);
 }
 
@@ -52,21 +53,36 @@ message ApplyResultEditsResponse {
   int32 updated_rows = 1;
 }
 
-message ComputeDriverBookingEntriesRequest {
+message ComputeBookingEntriesRequest {
   uint32 event_id = 1;
 }
 
-message ComputeDriverBookingEntriesResponse {
+message ComputeBookingEntriesResponse {
   int32 created_entries = 1;
 }
 
-message ComputeTeamBookingEntriesRequest {
-  uint32 event_id = 1;
+message AddPenaltyRequest {
+  PenaltyTarget target = 1;
+  int32 penalty_points = 2;
+  string reason = 3;
+}
+message PenaltyTarget {
+  oneof scope {
+    uint32 event_id = 1;
+    uint32 race_id = 2;
+    uint32 race_grid_id = 3;
+  }
+  oneof target {
+    uint32 driver_id = 4;
+    uint32 team_id = 5;
+  }
 }
 
-message ComputeTeamBookingEntriesResponse {
-  int32 created_entries = 1;
+message AddPenaltyResponse {}
+message DeletePenaltyRequest {
+  uint32 penalty_id = 1;
 }
+message DeletePenaltyResponse {}
 
 message FinalizeEventProcessingRequest {
   uint32 event_id = 1;

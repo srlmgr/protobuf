@@ -27,6 +27,7 @@ service QueryService {
   rpc GetCarBrand(GetCarBrandRequest) returns (GetCarBrandResponse);
   rpc GetCarModel(GetCarModelRequest) returns (GetCarModelResponse);
   rpc GetCarClass(GetCarClassRequest) returns (GetCarClassResponse);
+  rpc GetSeasonCarClasses(GetSeasonCarClassesRequest) returns (GetSeasonCarClassesResponse);
 
   rpc ListSimulations(ListSimulationsRequest) returns (ListSimulationsResponse);
   rpc ListSeries(ListSeriesRequest) returns (ListSeriesResponse);
@@ -213,6 +214,13 @@ message GetStandingsContributionsRequest {
 }
 message GetStandingsContributionsResponse {
   repeated backend.common.v1.StandingsContribution contributions = 1;
+}
+
+message GetSeasonCarClassesRequest {
+  uint32 season_id = 1;
+}
+message GetSeasonCarClassesResponse {
+  repeated backend.common.v1.CarClass items = 1;
 }
 
 message ListSimulationsRequest {}

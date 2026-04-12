@@ -65,6 +65,9 @@ service CommandService {
   rpc UpdateCarClass(UpdateCarClassRequest) returns (UpdateCarClassResponse);
   rpc DeleteCarClass(DeleteCarClassRequest) returns (DeleteCarClassResponse);
   rpc AssignCarModelToCarClass(AssignCarModelToCarClassRequest) returns (AssignCarModelToCarClassResponse);
+  rpc AssignCarClassToSeason(AssignCarClassToSeasonRequest) returns (AssignCarClassToSeasonResponse);
+  rpc UnassignCarModelFromCarClass(UnassignCarModelFromCarClassRequest) returns (UnassignCarModelFromCarClassResponse);
+  rpc UnassignCarClassFromSeason(UnassignCarClassFromSeasonRequest) returns (UnassignCarClassFromSeasonResponse);
 
   rpc SetSimulationCarAliases(SetSimulationCarAliasesRequest) returns (SetSimulationCarAliasesResponse);
 }
@@ -602,6 +605,27 @@ message AssignCarModelToCarClassRequest {
 }
 
 message AssignCarModelToCarClassResponse {}
+
+message AssignCarClassToSeasonRequest {
+  uint32 car_class_id = 1;
+  uint32 season_id = 2;
+}
+
+message AssignCarClassToSeasonResponse {}
+
+message UnassignCarModelFromCarClassRequest {
+  uint32 car_model_id = 1;
+  uint32 car_class_id = 2;
+}
+
+message UnassignCarModelFromCarClassResponse {}
+
+message UnassignCarClassFromSeasonRequest {
+  uint32 car_class_id = 1;
+  uint32 season_id = 2;
+}
+
+message UnassignCarClassFromSeasonResponse {}
 
 message SetSimulationCarAliasesRequest {
   uint32 car_model_id = 1;
