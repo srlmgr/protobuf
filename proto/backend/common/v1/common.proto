@@ -178,20 +178,33 @@ message Summary {
   int32 total_points = 4;
 }
 
+message StandingData {
+  int32 position = 1;
+  int32 prev_position = 2;
+  int32 total_points = 3;
+  int32 bonus_points = 4;
+  int32 penalty_points = 5;
+  int32 num_events = 6;
+  int32 num_races = 7;
+  int32 num_penalty_free = 8;
+  int32 num_wins = 9;
+  int32 num_podiums = 10;
+  int32 num_top5 = 11;
+  int32 num_top10 = 12;
+}
+
 message DriverStanding {
-  uint32 season_id = 1;
-  uint32 driver_id = 2;
-  int32 position = 3;
-  int32 total_points = 4;
-  repeated uint32 dropped_event_ids = 5;
+  uint32 driver_id = 1;
+  uint32 event_id = 2;
+  StandingData data = 3;
+  repeated uint32 dropped_event_ids = 4;
 }
 
 message TeamStanding {
-  uint32 season_id = 1;
-  uint32 team_id = 2;
-  int32 position = 3;
-  int32 total_points = 4;
-  repeated uint32 dropped_event_ids = 5;
+  uint32 team_id = 1;
+  uint32 event_id = 2;
+  StandingData data = 3;
+  repeated uint32 dropped_event_ids = 4;
 }
 
 message UnresolvedMapping {

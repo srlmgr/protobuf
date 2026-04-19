@@ -47,8 +47,7 @@ service QueryService {
 }
 
 message GetDriverStandingsRequest {
-  uint32 season_id = 1;
-  uint32 as_of_event_id = 2;
+  uint32 event_id = 1;
 }
 
 message GetDriverStandingsResponse {
@@ -56,8 +55,7 @@ message GetDriverStandingsResponse {
 }
 
 message GetTeamStandingsRequest {
-  uint32 season_id = 1;
-  uint32 as_of_event_id = 2;
+  uint32 event_id = 1;
 }
 
 message GetTeamStandingsResponse {
