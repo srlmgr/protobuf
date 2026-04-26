@@ -10,6 +10,11 @@ service ImportService {
   rpc GetPreprocessPreview(GetPreprocessPreviewRequest) returns (GetPreprocessPreviewResponse);
   rpc ApplyResultEdits(ApplyResultEditsRequest) returns (ApplyResultEditsResponse);
 
+  // used to remove data created by the app after an import, for example: result entries, booking entries, penalties, etc.
+  // Does not remove manually created data (e.g. manually added penalties) unless include_manual_edits is set to true.
+  // If perform_recompute is set to true, will also trigger recomputation of results and standings after cleanup.
+  rpc CleanupProcessingData(CleanupProcessingDataRequest) returns (CleanupProcessingDataResponse);
+
   rpc ComputeBookingEntries(ComputeBookingEntriesRequest) returns (ComputeBookingEntriesResponse);
   rpc AddPenalty(AddPenaltyRequest) returns (AddPenaltyResponse);
   rpc DeletePenalty(DeletePenaltyRequest) returns (DeletePenaltyResponse);
@@ -60,6 +65,22 @@ message ComputeBookingEntriesRequest {
 message ComputeBookingEntriesResponse {
   int32 created_entries = 1;
 }
+
+message CleanupProcessingDataRequest {
+  CleanupTarget cleanup_target = 1;
+  bool include_manual_edits = 2;
+  bool perform_recompute = 3;
+}
+
+message CleanupTarget {
+  oneof target {
+    uint32 event_id = 1;
+    uint32 race_id = 2;
+    uint32 race_grid_id = 3;
+  }
+}
+
+message CleanupProcessingDataResponse {}
 
 message AddPenaltyRequest {
   PenaltyTarget target = 1;

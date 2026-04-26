@@ -9,7 +9,12 @@ message Simulation {
   uint32 id = 1;
   string name = 2;
   bool is_active = 3;
-  repeated ImportFormat supported_formats = 4;
+  repeated ImportConfig supported_formats = 4;
+}
+
+message ImportConfig {
+  backend.common.v1.ImportFormat format = 1;
+  bool allow_multiple_uploads = 2;
 }
 
 message Series {
@@ -242,6 +247,7 @@ enum ImportFormat {
   IMPORT_FORMAT_UNSPECIFIED = 0;
   IMPORT_FORMAT_JSON = 1;
   IMPORT_FORMAT_CSV = 2;
+  IMPORT_FORMAT_XML = 3;
 }
 
 enum RaceSessionType {
