@@ -84,12 +84,25 @@ message PointRule {
   int32 points = 3;
   string metadata_json = 4;
 }
+message PointEligibility {
+  double min_race_distance_percent = 1;
+  bool guests = 2;
+}
+message PointPolicySettings {
+  PointPolicy name = 1;
+  repeated int32 points = 2;
+}
 
+message PointRaceSettings {
+  string name = 1;
+  PointPolicySettings policies = 2;
+}
 message PointSystem {
   uint32 id = 1;
   string name = 2;
   string description = 3;
-  repeated PointRule rules = 4;
+  PointEligibility eligibility = 4;
+  repeated PointRaceSettings race_settings = 5;
 }
 
 message Track {
