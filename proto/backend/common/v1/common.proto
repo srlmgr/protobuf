@@ -88,14 +88,39 @@ message PointEligibility {
   double min_race_distance_percent = 1;
   bool guests = 2;
 }
+
+message PointTable {
+  repeated int32 values = 1;
+}
+
+message PositionPointsConfig {
+  repeated PointTable tables = 1;
+}
+
+message ThresholdPenaltyRule {
+  uint32 threshold = 1;
+  double penalty_percent = 2;
+}
+
+message ThresholdPenaltyConfig {
+  repeated ThresholdPenaltyRule rules = 1;
+}
+
 message PointPolicySettings {
   PointPolicy name = 1;
-  repeated int32 points = 2;
+  oneof config {
+    PositionPointsConfig finish_pos = 2;
+    PositionPointsConfig qualification_pos = 3;
+    PositionPointsConfig least_incidents = 4;
+    PositionPointsConfig fastest_lap = 5;
+    PositionPointsConfig top_n_finisher = 6;
+    ThresholdPenaltyConfig incidents_exceeded = 7;
+  }
 }
 
 message PointRaceSettings {
   string name = 1;
-  PointPolicySettings policies = 2;
+  repeated PointPolicySettings policies = 2;
 }
 message PointSystem {
   uint32 id = 1;

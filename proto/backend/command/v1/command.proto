@@ -396,7 +396,8 @@ message RemoveTeamMemberResponse {}
 message CreatePointSystemRequest {
   string name = 1;
   string description = 2;
-  repeated backend.common.v1.PointRule rules = 3;
+  backend.common.v1.PointEligibility eligibility = 3;
+  repeated backend.common.v1.PointRaceSettings race_settings = 4;
 }
 
 message CreatePointSystemResponse {
@@ -407,7 +408,8 @@ message UpdatePointSystemRequest {
   uint32 point_system_id = 1;
   string name = 2;
   string description = 3;
-  repeated backend.common.v1.PointRule rules = 4;
+  backend.common.v1.PointEligibility eligibility = 4;
+  repeated backend.common.v1.PointRaceSettings race_settings = 5;
 }
 
 message UpdatePointSystemResponse {
