@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package backend.query.v1;
+
+import "backend/common/v1/common.proto";
+
+service FrontendService {
+  rpc ListSeasonsOverview(ListSeasonsOverviewRequest) returns (ListSeasonsOverviewResponse);
+}
+message ListSeasonsOverviewRequest {
+  bool include_inactive = 1;
+}
+message ListSeasonsOverviewResponse {
+  repeated backend.common.v1.Season seasons = 1;
+  repeated backend.common.v1.Series series = 2;
+  repeated backend.common.v1.Simulation simulations = 3;
+}

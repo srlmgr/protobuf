@@ -71,6 +71,12 @@ message Driver {
   bool is_active = 4;
 }
 
+// Represents an alias for a driver in a specific simulation, used for mapping imported results to existing drivers
+message DriverAlias {
+  uint32 simulation_id = 1;
+  repeated string simulation_driver_id = 2;
+}
+
 message Team {
   uint32 id = 1;
   uint32 season_id = 2;

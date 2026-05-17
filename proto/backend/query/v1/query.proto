@@ -32,6 +32,7 @@ service QueryService {
   rpc ListSimulations(ListSimulationsRequest) returns (ListSimulationsResponse);
   rpc ListSeries(ListSeriesRequest) returns (ListSeriesResponse);
   rpc ListSeasons(ListSeasonsRequest) returns (ListSeasonsResponse);
+
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
   rpc ListRaces(ListRacesRequest) returns (ListRacesResponse);
   rpc ListRaceGrids(ListRaceGridsRequest) returns (ListRaceGridsResponse);
@@ -129,10 +130,12 @@ message GetRaceResponse {
 
 message GetDriverRequest {
   uint32 id = 1;
+  bool include_aliases = 2;
 }
 
 message GetDriverResponse {
   backend.common.v1.Driver driver = 1;
+  repeated backend.common.v1.DriverAlias aliases = 2;
 }
 
 message GetTeamRequest {
