@@ -168,6 +168,7 @@ message GetTrackLayoutRequest {
 
 message GetTrackLayoutResponse {
   backend.common.v1.TrackLayout track_layout = 1;
+  repeated backend.common.v1.SimulationAliases simulation_aliases = 2;
 }
 
 message GetCarManufacturerRequest {
@@ -192,6 +193,7 @@ message GetCarModelRequest {
 
 message GetCarModelResponse {
   backend.common.v1.CarModel car_model = 1;
+  repeated backend.common.v1.SimulationAliases simulation_aliases = 2;
 }
 
 message GetCarClassRequest {

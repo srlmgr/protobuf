@@ -142,6 +142,8 @@ message CreateSeasonRequest {
   int32 team_points_top_n = 7; // use top N team driver results for team standings
   bool is_multiclass = 8;
   string status = 9;
+  google.protobuf.Timestamp starts_at = 10;
+  google.protobuf.Timestamp ends_at = 11;
 }
 
 message CreateSeasonResponse {
@@ -158,6 +160,8 @@ message UpdateSeasonRequest {
   int32 team_points_top_n = 7; // use top N team driver results for team standings
   bool is_multiclass = 8;
   string status = 9;
+  google.protobuf.Timestamp starts_at = 10;
+  google.protobuf.Timestamp ends_at = 11;
 }
 
 message UpdateSeasonResponse {
@@ -462,6 +466,7 @@ message CreateTrackLayoutRequest {
   string name = 2;
   int32 length_meters = 3;
   string layout_image_url = 4;
+  repeated backend.common.v1.SimulationAliases simulation_aliases = 5;
 }
 
 message CreateTrackLayoutResponse {
@@ -474,6 +479,7 @@ message UpdateTrackLayoutRequest {
   string name = 3;
   int32 length_meters = 4;
   string layout_image_url = 5;
+  repeated backend.common.v1.SimulationAliases simulation_aliases = 6;
 }
 
 message UpdateTrackLayoutResponse {
@@ -553,6 +559,7 @@ message DeleteCarBrandResponse {
 message CreateCarModelRequest {
   uint32 brand_id = 1;
   string name = 2;
+  repeated backend.common.v1.SimulationAliases simulation_aliases = 3;
 }
 
 message CreateCarModelResponse {
@@ -563,6 +570,7 @@ message UpdateCarModelRequest {
   uint32 car_model_id = 1;
   uint32 brand_id = 2;
   string name = 3;
+  repeated backend.common.v1.SimulationAliases simulation_aliases = 4;
 }
 
 message UpdateCarModelResponse {

@@ -36,6 +36,8 @@ message Season {
   int32 team_points_top_n = 8; // use top N team driver results for team standings
   bool is_multiclass = 9;
   string status = 10;
+  google.protobuf.Timestamp starts_at = 11;
+  google.protobuf.Timestamp ends_at = 12;
 }
 
 message Event {
@@ -151,6 +153,13 @@ message TrackLayout {
   string name = 3;
   int32 length_meters = 4;
   string layout_image_url = 5;
+}
+
+// Represents aliases used in simulations to be associated with an entity.
+// for example: a single track layout may be referred to by different identifiers different simulations
+message SimulationAliases {
+  uint32 simulation_id = 1;
+  repeated string identifiers = 2;
 }
 
 message CarManufacturer {
