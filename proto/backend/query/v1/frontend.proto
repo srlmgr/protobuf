@@ -6,6 +6,8 @@ import "backend/common/v1/common.proto";
 
 service FrontendService {
   rpc ListSeasonsOverview(ListSeasonsOverviewRequest) returns (ListSeasonsOverviewResponse);
+  rpc ListSeasonEvents(ListSeasonEventsRequest) returns (ListSeasonEventsResponse);
+  rpc ListTrackLayouts(FrontendServiceListTrackLayoutsRequest) returns (FrontendServiceListTrackLayoutsResponse);
 }
 message ListSeasonsOverviewRequest {
   bool include_inactive = 1;
@@ -14,4 +16,32 @@ message ListSeasonsOverviewResponse {
   repeated backend.common.v1.Season seasons = 1;
   repeated backend.common.v1.Series series = 2;
   repeated backend.common.v1.Simulation simulations = 3;
+}
+
+message ListSeasonEventsRequest {
+  uint32 season_id = 1;
+}
+message EventContainer {
+  backend.common.v1.Event event = 1;
+  backend.common.v1.Track track = 2;
+  backend.common.v1.TrackLayout track_layout = 3;
+}
+message ListSeasonEventsResponse {
+  repeated EventContainer events = 1;
+  backend.common.v1.Season season = 2;
+  backend.common.v1.Series series = 3;
+}
+
+message FrontendServiceListTrackLayoutsRequest {
+  // optional. if set only returns track layouts for the given simulation. if not set, returns all track layouts.
+  uint32 simulation_id = 1;
+}
+
+message TrackLayoutContainer {
+  backend.common.v1.Track track = 1;
+  backend.common.v1.TrackLayout track_layout = 2;
+}
+
+message FrontendServiceListTrackLayoutsResponse {
+  repeated TrackLayoutContainer items = 1;
 }
