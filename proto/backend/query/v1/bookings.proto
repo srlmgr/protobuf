@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package backend.query.v1;
+
+import "backend/common/v1/common.proto";
+
+service BookingsService {
+  rpc GetBookingEntries(GetBookingEntriesRequest) returns (GetBookingEntriesResponse);
+}
+
+message GetBookingEntriesRequest {
+  oneof scope {
+    uint32 event_id = 1;
+    uint32 race_id = 2;
+    uint32 grid_id = 3;
+  }
+}
+
+message GetBookingEntriesResponse {
+  repeated backend.common.v1.BookingEntry items = 1;
+  repeated backend.common.v1.Driver drivers = 2;
+  repeated backend.common.v1.Team teams = 3;
+}

@@ -9,7 +9,7 @@ service QueryService {
   rpc GetTeamStandings(GetTeamStandingsRequest) returns (GetTeamStandingsResponse);
   rpc GetEventResults(GetEventResultsRequest) returns (GetEventResultsResponse);
   rpc GetResultEntry(GetResultEntryRequest) returns (GetResultEntryResponse);
-  rpc GetEventBookingEntries(GetEventBookingEntriesRequest) returns (GetEventBookingEntriesResponse);
+
   rpc GetSummary(GetSummaryRequest) returns (GetSummaryResponse);
   rpc GetStandingsContributions(GetStandingsContributionsRequest) returns (GetStandingsContributionsResponse);
 
@@ -53,6 +53,8 @@ message GetDriverStandingsRequest {
 
 message GetDriverStandingsResponse {
   repeated backend.common.v1.DriverStanding standings = 1;
+  repeated backend.common.v1.SeasonDriver season_drivers = 2;
+  repeated backend.common.v1.Driver drivers = 3;
 }
 
 message GetTeamStandingsRequest {
@@ -61,6 +63,7 @@ message GetTeamStandingsRequest {
 
 message GetTeamStandingsResponse {
   repeated backend.common.v1.TeamStanding standings = 1;
+  repeated backend.common.v1.Team teams = 2;
 }
 
 message GetEventResultsRequest {
@@ -78,14 +81,6 @@ message GetResultEntryRequest {
 
 message GetResultEntryResponse {
   backend.common.v1.ResultEntry result_entry = 1;
-}
-
-message GetEventBookingEntriesRequest {
-  uint32 event_id = 1;
-}
-
-message GetEventBookingEntriesResponse {
-  repeated backend.common.v1.BookingEntry rows = 1;
 }
 
 message GetSimulationRequest {
@@ -208,8 +203,11 @@ message GetSummaryRequest {
   backend.common.v1.SummarySelector selector = 1;
 }
 
+// depending on the selector in the request drivers or teams will be included
 message GetSummaryResponse {
   repeated backend.common.v1.Summary summaries = 1;
+  repeated backend.common.v1.Driver drivers = 2;
+  repeated backend.common.v1.Team teams = 3;
 }
 
 message GetStandingsContributionsRequest {
