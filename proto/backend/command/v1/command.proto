@@ -35,6 +35,7 @@ service CommandService {
   rpc SetSeasonDrivers(SetSeasonDriversRequest) returns (SetSeasonDriversResponse);
   rpc AddSeasonDriver(AddSeasonDriverRequest) returns (AddSeasonDriverResponse);
   rpc RemoveSeasonDriver(RemoveSeasonDriverRequest) returns (RemoveSeasonDriverResponse);
+  rpc DeleteSeasonDriver(DeleteSeasonDriverRequest) returns (DeleteSeasonDriverResponse);
 
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse);
   rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse);
@@ -382,6 +383,10 @@ message RemoveSeasonDriverRequest {
   google.protobuf.Timestamp left_at = 3;
 }
 message RemoveSeasonDriverResponse {}
+message DeleteSeasonDriverRequest {
+  uint32 id = 1;
+}
+message DeleteSeasonDriverResponse {}
 
 message CreateTeamRequest {
   uint32 season_id = 1;
