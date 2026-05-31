@@ -19,6 +19,7 @@ service QueryService {
   rpc GetEvent(GetEventRequest) returns (GetEventResponse);
   rpc GetRace(GetRaceRequest) returns (GetRaceResponse);
   rpc GetDriver(GetDriverRequest) returns (GetDriverResponse);
+  rpc GetSeasonDriver(GetSeasonDriverRequest) returns (GetSeasonDriverResponse);
   rpc GetTeam(GetTeamRequest) returns (GetTeamResponse);
   rpc GetPointSystem(GetPointSystemRequest) returns (GetPointSystemResponse);
   rpc GetTrack(GetTrackRequest) returns (GetTrackResponse);
@@ -131,6 +132,15 @@ message GetDriverRequest {
 message GetDriverResponse {
   backend.common.v1.Driver driver = 1;
   repeated backend.common.v1.DriverAlias aliases = 2;
+}
+
+message GetSeasonDriverRequest {
+  uint32 id = 1;
+  bool include_aliases = 2;
+}
+
+message GetSeasonDriverResponse {
+  backend.common.v1.SeasonDriver season_driver = 1;
 }
 
 message GetTeamRequest {

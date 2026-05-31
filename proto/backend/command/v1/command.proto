@@ -392,6 +392,7 @@ message CreateTeamRequest {
   uint32 season_id = 1;
   string name = 2;
   bool is_active = 3;
+  google.protobuf.Timestamp joined_at = 4;
 }
 
 message CreateTeamResponse {
@@ -403,6 +404,8 @@ message UpdateTeamRequest {
   uint32 season_id = 2;
   string name = 3;
   bool is_active = 4;
+  google.protobuf.Timestamp joined_at = 5;
+  google.protobuf.Timestamp left_at = 6;
 }
 
 message UpdateTeamResponse {

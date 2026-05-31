@@ -7,6 +7,7 @@ import "backend/common/v1/common.proto";
 service FrontendService {
   rpc ListSeasonsOverview(ListSeasonsOverviewRequest) returns (ListSeasonsOverviewResponse);
   rpc ListSeasonEvents(ListSeasonEventsRequest) returns (ListSeasonEventsResponse);
+  rpc ListSeasonDrivers(ListSeasonDriversRequest) returns (ListSeasonDriversResponse);
   rpc ListTrackLayouts(FrontendServiceListTrackLayoutsRequest) returns (FrontendServiceListTrackLayoutsResponse);
 }
 message ListSeasonsOverviewRequest {
@@ -30,6 +31,26 @@ message ListSeasonEventsResponse {
   repeated EventContainer events = 1;
   backend.common.v1.Season season = 2;
   backend.common.v1.Series series = 3;
+}
+
+message ListSeasonDriversRequest {
+  uint32 season_id = 1;
+}
+message CarModelContainer {
+  backend.common.v1.CarModel car_model = 1;
+  backend.common.v1.CarBrand car_brand = 2;
+  backend.common.v1.CarManufacturer car_manufacturer = 3;
+}
+message SeasonDriverContainer {
+  // the raw data for all season drivers. may contain multiple entries for the same driver
+  repeated backend.common.v1.SeasonDriver season_drivers = 1;
+  // the driver info for all drivers mentioned in season_drivers.
+  repeated backend.common.v1.Driver drivers = 2;
+  // the car data for all car models used in season_drivers.
+  repeated CarModelContainer car_data = 3;
+}
+message ListSeasonDriversResponse {
+  repeated SeasonDriverContainer items = 1;
 }
 
 message FrontendServiceListTrackLayoutsRequest {
