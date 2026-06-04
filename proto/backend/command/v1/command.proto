@@ -361,7 +361,7 @@ message SetSeasonDriversRequest {
 
 message SetSeasonDriver {
   uint32 driver_id = 1;
-  string car_model_id = 2;
+  uint32 car_model_id = 2;
   string car_number = 3;
   google.protobuf.Timestamp joined_at = 4;
   google.protobuf.Timestamp left_at = 5;
@@ -372,7 +372,7 @@ message SetSeasonDriversResponse {}
 message AddSeasonDriverRequest {
   uint32 driver_id = 1;
   uint32 season_id = 2;
-  string car_model_id = 3;
+  uint32 car_model_id = 3;
   string car_number = 4;
   google.protobuf.Timestamp joined_at = 5;
 }
@@ -392,7 +392,9 @@ message CreateTeamRequest {
   uint32 season_id = 1;
   string name = 2;
   bool is_active = 3;
-  google.protobuf.Timestamp joined_at = 4;
+  uint32 car_model_id = 4;
+  string car_number = 5;
+  google.protobuf.Timestamp joined_at = 6;
 }
 
 message CreateTeamResponse {
@@ -404,8 +406,10 @@ message UpdateTeamRequest {
   uint32 season_id = 2;
   string name = 3;
   bool is_active = 4;
-  google.protobuf.Timestamp joined_at = 5;
-  google.protobuf.Timestamp left_at = 6;
+  uint32 car_model_id = 5;
+  string car_number = 6;
+  google.protobuf.Timestamp joined_at = 7;
+  google.protobuf.Timestamp left_at = 8;
 }
 
 message UpdateTeamResponse {

@@ -94,8 +94,10 @@ message Team {
   uint32 season_id = 2;
   string name = 3;
   bool is_active = 4;
-  google.protobuf.Timestamp joined_at = 5;
-  google.protobuf.Timestamp left_at = 6;
+  string car_model_id = 5;
+  string car_number = 6;
+  google.protobuf.Timestamp joined_at = 7;
+  google.protobuf.Timestamp left_at = 8;
 }
 
 message PointRule {

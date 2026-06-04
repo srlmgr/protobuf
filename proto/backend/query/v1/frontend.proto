@@ -8,6 +8,7 @@ service FrontendService {
   rpc ListSeasonsOverview(ListSeasonsOverviewRequest) returns (ListSeasonsOverviewResponse);
   rpc ListSeasonEvents(ListSeasonEventsRequest) returns (ListSeasonEventsResponse);
   rpc ListSeasonDrivers(ListSeasonDriversRequest) returns (ListSeasonDriversResponse);
+  rpc ListSeasonTeams(ListSeasonTeamsRequest) returns (ListSeasonTeamsResponse);
   rpc ListTrackLayouts(FrontendServiceListTrackLayoutsRequest) returns (FrontendServiceListTrackLayoutsResponse);
 }
 message ListSeasonsOverviewRequest {
@@ -51,6 +52,20 @@ message SeasonDriverContainer {
 }
 message ListSeasonDriversResponse {
   repeated SeasonDriverContainer items = 1;
+}
+message ListSeasonTeamsRequest {
+  uint32 season_id = 1;
+}
+
+message SeasonTeamContainer {
+  // the raw data for all season teams. may contain multiple entries for the same team
+  repeated backend.common.v1.Team teams = 1;
+
+  // the car data for all car models used in season_teams.
+  repeated CarModelContainer car_data = 2;
+}
+message ListSeasonTeamsResponse {
+  repeated SeasonTeamContainer items = 1;
 }
 
 message FrontendServiceListTrackLayoutsRequest {
