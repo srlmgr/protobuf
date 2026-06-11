@@ -43,6 +43,7 @@ service CommandService {
   rpc SetTeamMembers(SetTeamMembersRequest) returns (SetTeamMembersResponse);
   rpc AddTeamMember(AddTeamMemberRequest) returns (AddTeamMemberResponse);
   rpc RemoveTeamMember(RemoveTeamMemberRequest) returns (RemoveTeamMemberResponse);
+  rpc DeleteTeamMember(DeleteTeamMemberRequest) returns (DeleteTeamMemberResponse);
 
   rpc CreatePointSystem(CreatePointSystemRequest) returns (CreatePointSystemResponse);
   rpc UpdatePointSystem(UpdatePointSystemRequest) returns (UpdatePointSystemResponse);
@@ -375,6 +376,7 @@ message AddSeasonDriverRequest {
   uint32 car_model_id = 3;
   string car_number = 4;
   google.protobuf.Timestamp joined_at = 5;
+  google.protobuf.Timestamp left_at = 6; // optional, if not provided, will be set to null (indicating currently active)
 }
 message AddSeasonDriverResponse {}
 message RemoveSeasonDriverRequest {
@@ -395,6 +397,7 @@ message CreateTeamRequest {
   uint32 car_model_id = 4;
   string car_number = 5;
   google.protobuf.Timestamp joined_at = 6;
+  google.protobuf.Timestamp left_at = 7; // optional, if not provided, will be set to null (indicating currently active)
 }
 
 message CreateTeamResponse {
@@ -409,7 +412,7 @@ message UpdateTeamRequest {
   uint32 car_model_id = 5;
   string car_number = 6;
   google.protobuf.Timestamp joined_at = 7;
-  google.protobuf.Timestamp left_at = 8;
+  google.protobuf.Timestamp left_at = 8; // optional, if not provided, will be set to null (indicating currently active)
 }
 
 message UpdateTeamResponse {
@@ -426,7 +429,12 @@ message DeleteTeamResponse {
 
 message SetTeamMembersRequest {
   uint32 team_id = 1;
-  repeated uint32 driver_ids = 2;
+  repeated TeamMember members = 2;
+}
+message TeamMember {
+  uint32 driver_id = 1;
+  google.protobuf.Timestamp joined_at = 2;
+  google.protobuf.Timestamp left_at = 3; // optional, if not provided, will be set to null (indicating currently active)
 }
 
 message SetTeamMembersResponse {}
@@ -434,13 +442,18 @@ message SetTeamMembersResponse {}
 message AddTeamMemberRequest {
   uint32 team_id = 1;
   uint32 driver_id = 2;
+  google.protobuf.Timestamp joined_at = 3; // optional, if not provided, will be set to current time
+  google.protobuf.Timestamp left_at = 4; // optional, if not provided, will be set to null (indicating currently active)
 }
 message AddTeamMemberResponse {}
 message RemoveTeamMemberRequest {
-  uint32 team_id = 1;
-  uint32 driver_id = 2;
+  uint32 id = 1; // the ID of the team member entry to update
 }
 message RemoveTeamMemberResponse {}
+message DeleteTeamMemberRequest {
+  uint32 id = 1; // the ID of the team member entry to delete
+}
+message DeleteTeamMemberResponse {}
 
 message CreatePointSystemRequest {
   string name = 1;

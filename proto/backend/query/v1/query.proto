@@ -21,6 +21,7 @@ service QueryService {
   rpc GetDriver(GetDriverRequest) returns (GetDriverResponse);
   rpc GetSeasonDriver(GetSeasonDriverRequest) returns (GetSeasonDriverResponse);
   rpc GetTeam(GetTeamRequest) returns (GetTeamResponse);
+  rpc GetTeamMembers(GetTeamMembersRequest) returns (GetTeamMembersResponse);
   rpc GetPointSystem(GetPointSystemRequest) returns (GetPointSystemResponse);
   rpc GetTrack(GetTrackRequest) returns (GetTrackResponse);
   rpc GetTrackLayout(GetTrackLayoutRequest) returns (GetTrackLayoutResponse);
@@ -149,6 +150,13 @@ message GetTeamRequest {
 
 message GetTeamResponse {
   backend.common.v1.Team team = 1;
+}
+message GetTeamMembersRequest {
+  uint32 id = 1;
+}
+
+message GetTeamMembersResponse {
+  repeated backend.common.v1.TeamMember members = 1;
 }
 
 message GetPointSystemRequest {
