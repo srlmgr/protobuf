@@ -364,8 +364,9 @@ message SetSeasonDriver {
   uint32 driver_id = 1;
   uint32 car_model_id = 2;
   string car_number = 3;
-  google.protobuf.Timestamp joined_at = 4;
-  google.protobuf.Timestamp left_at = 5;
+  bool is_guest_driver = 4;
+  google.protobuf.Timestamp joined_at = 5;
+  google.protobuf.Timestamp left_at = 6;
 }
 
 message SetSeasonDriversResponse {}
@@ -375,8 +376,9 @@ message AddSeasonDriverRequest {
   uint32 season_id = 2;
   uint32 car_model_id = 3;
   string car_number = 4;
-  google.protobuf.Timestamp joined_at = 5;
-  google.protobuf.Timestamp left_at = 6; // optional, if not provided, will be set to null (indicating currently active)
+  bool is_guest_driver = 5;
+  google.protobuf.Timestamp joined_at = 6;
+  google.protobuf.Timestamp left_at = 7; // optional, if not provided, will be set to null (indicating currently active)
 }
 message AddSeasonDriverResponse {}
 message RemoveSeasonDriverRequest {

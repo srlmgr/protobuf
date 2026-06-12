@@ -79,8 +79,9 @@ message SeasonDriver {
   uint32 season_id = 3;
   uint32 car_model_id = 4;
   string car_number = 5;
-  google.protobuf.Timestamp joined_at = 6;
-  google.protobuf.Timestamp left_at = 7;
+  bool is_guest_driver = 6;
+  google.protobuf.Timestamp joined_at = 7;
+  google.protobuf.Timestamp left_at = 8;
 }
 
 // Represents an alias for a driver in a specific simulation, used for mapping imported results to existing drivers
@@ -230,11 +231,13 @@ message ResultEntry {
 message BookingEntry {
   uint32 id = 1;
   uint32 event_id = 2;
-  BookingTargetType target_type = 3;
-  uint32 target_id = 4;
-  BookingSourceType source_type = 5;
-  int32 points = 6;
-  string description = 7;
+  uint32 race_id = 3;
+  uint32 race_grid_id = 4;
+  BookingTargetType target_type = 5;
+  uint32 target_id = 6;
+  BookingSourceType source_type = 7;
+  int32 points = 8;
+  string description = 9;
 }
 
 message StandingsContribution {
