@@ -233,11 +233,12 @@ message BookingEntry {
   uint32 event_id = 2;
   uint32 race_id = 3;
   uint32 race_grid_id = 4;
-  BookingTargetType target_type = 5;
-  uint32 target_id = 6;
-  BookingSourceType source_type = 7;
-  int32 points = 8;
-  string description = 9;
+  uint32 car_class_id = 5;
+  BookingTargetType target_type = 6;
+  uint32 target_id = 7;
+  BookingSourceType source_type = 8;
+  int32 points = 9;
+  string description = 10;
 }
 
 message StandingsContribution {
@@ -257,10 +258,11 @@ message SummarySelector {
 
 message Summary {
   uint32 reference_id = 1;
-  int32 points = 2;
-  int32 bonus_points = 3;
-  int32 penalty_points = 4;
-  int32 total_points = 5;
+  uint32 car_class_id = 2;
+  int32 points = 3;
+  int32 bonus_points = 4;
+  int32 penalty_points = 5;
+  int32 total_points = 6;
 }
 
 message StandingData {
@@ -278,18 +280,22 @@ message StandingData {
   int32 num_top10 = 12;
 }
 
+//deprecated, see query/standings.proto for substitute
 message DriverStanding {
   uint32 driver_id = 1;
   uint32 event_id = 2;
-  StandingData data = 3;
-  repeated uint32 dropped_event_ids = 4;
+  uint32 car_class_id = 3;
+  StandingData data = 4;
+  repeated uint32 dropped_event_ids = 5;
 }
 
+//deprecated, see query/standings.proto for substitute
 message TeamStanding {
   uint32 team_id = 1;
   uint32 event_id = 2;
-  StandingData data = 3;
-  repeated uint32 dropped_event_ids = 4;
+  uint32 car_class_id = 3;
+  StandingData data = 4;
+  repeated uint32 dropped_event_ids = 5;
 }
 
 message UnresolvedMapping {

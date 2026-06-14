@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package backend.query.v1;
+
+import "backend/common/v1/common.proto";
+
+service StandingsService {
+  rpc GetStandings(GetStandingsRequest) returns (GetStandingsResponse);
+}
+
+message GetStandingsRequest {
+  uint32 event_id = 1;
+}
+message GetStandingsResponse {
+  uint32 event_id = 1;
+  repeated Standing primary_standings = 2;
+  repeated Standing secondary_standings = 3;
+}
+message Standing {
+  StandingsType standings_type = 1;
+  uint32 reference_id = 2; // driver_id for driver standings, team_id for team standings
+  uint32 event_id = 3;
+  uint32 car_class_id = 4;
+  backend.common.v1.StandingData data = 5;
+  repeated uint32 dropped_event_ids = 6;
+}
+
+enum StandingsType {
+  STANDINGS_TYPE_UNSPECIFIED = 0;
+  STANDINGS_TYPE_DRIVER = 1;
+  STANDINGS_TYPE_TEAM = 2;
+}
