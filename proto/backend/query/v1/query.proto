@@ -47,6 +47,7 @@ service QueryService {
   rpc ListCarBrands(ListCarBrandsRequest) returns (ListCarBrandsResponse);
   rpc ListCarModels(ListCarModelsRequest) returns (ListCarModelsResponse);
   rpc ListCarClasses(ListCarClassesRequest) returns (ListCarClassesResponse);
+  rpc ListCarClassModels(ListCarClassModelsRequest) returns (ListCarClassModelsResponse);
 }
 
 message GetDriverStandingsRequest {
@@ -356,4 +357,12 @@ message ListCarClassesRequest {}
 
 message ListCarClassesResponse {
   repeated backend.common.v1.CarClass items = 1;
+}
+
+message ListCarClassModelsRequest {
+  uint32 class_id = 1;
+}
+
+message ListCarClassModelsResponse {
+  repeated backend.common.v1.CarModel items = 1;
 }
