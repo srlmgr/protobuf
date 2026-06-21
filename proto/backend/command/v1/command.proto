@@ -397,6 +397,8 @@ message DeleteSeasonDriverResponse {}
 message SetSeasonCarClassesRequest {
   uint32 season_id = 1;
   repeated uint32 car_class_ids = 2;
+  // determines how to update the season car models based on the updated car classes. if not provided, defaults to SEASON_CAR_MODELS_UPDATE_MODE_UNSPECIFIED (do nothing)
+  SeasonCarModelsUpdateMode update_mode = 3;
 }
 
 message SetSeasonCarClassesResponse {}
@@ -720,4 +722,10 @@ message SetSimulationCarAliasesRequest {
 
 message SetSimulationCarAliasesResponse {
   bool updated = 1;
+}
+
+enum SeasonCarModelsUpdateMode {
+  SEASON_CAR_MODELS_UPDATE_MODE_UNSPECIFIED = 0; // do nothing
+  SEASON_CAR_MODELS_UPDATE_MODE_REPLACE = 1; // replace existing season car models (computed by car classes)
+  SEASON_CAR_MODELS_UPDATE_MODE_INSERT_WHEN_EMPTY = 2; // add season car models if no exist
 }

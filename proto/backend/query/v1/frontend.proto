@@ -9,6 +9,9 @@ service FrontendService {
   rpc ListSeasonEvents(ListSeasonEventsRequest) returns (ListSeasonEventsResponse);
   rpc ListSeasonDrivers(ListSeasonDriversRequest) returns (ListSeasonDriversResponse);
   rpc ListSeasonTeams(ListSeasonTeamsRequest) returns (ListSeasonTeamsResponse);
+  rpc ListSeasonCarClasses(ListSeasonCarClassesRequest) returns (ListSeasonCarClassesResponse);
+  rpc ListSeasonCarModels(ListSeasonCarModelsRequest) returns (ListSeasonCarModelsResponse);
+
   rpc ListTrackLayouts(FrontendServiceListTrackLayoutsRequest) returns (FrontendServiceListTrackLayoutsResponse);
 }
 message ListSeasonsOverviewRequest {
@@ -66,6 +69,19 @@ message SeasonTeamContainer {
 }
 message ListSeasonTeamsResponse {
   repeated SeasonTeamContainer items = 1;
+}
+
+message ListSeasonCarClassesRequest {
+  uint32 season_id = 1;
+}
+message ListSeasonCarClassesResponse {
+  repeated backend.common.v1.CarClass items = 1;
+}
+message ListSeasonCarModelsRequest {
+  uint32 season_id = 1;
+}
+message ListSeasonCarModelsResponse {
+  repeated backend.common.v1.CarModel items = 1;
 }
 
 message FrontendServiceListTrackLayoutsRequest {
