@@ -62,12 +62,34 @@ service CommandService {
   rpc CreateCarManufacturer(CreateCarManufacturerRequest) returns (CreateCarManufacturerResponse);
   rpc UpdateCarManufacturer(UpdateCarManufacturerRequest) returns (UpdateCarManufacturerResponse);
   rpc DeleteCarManufacturer(DeleteCarManufacturerRequest) returns (DeleteCarManufacturerResponse);
-  rpc CreateCarBrand(CreateCarBrandRequest) returns (CreateCarBrandResponse);
-  rpc UpdateCarBrand(UpdateCarBrandRequest) returns (UpdateCarBrandResponse);
-  rpc DeleteCarBrand(DeleteCarBrandRequest) returns (DeleteCarBrandResponse);
-  rpc CreateCarModel(CreateCarModelRequest) returns (CreateCarModelResponse);
-  rpc UpdateCarModel(UpdateCarModelRequest) returns (UpdateCarModelResponse);
-  rpc DeleteCarModel(DeleteCarModelRequest) returns (DeleteCarModelResponse);
+  rpc CreateCarBrand(CreateCarBrandRequest) returns (CreateCarBrandResponse) {
+    option deprecated = true;
+  }
+  rpc UpdateCarBrand(UpdateCarBrandRequest) returns (UpdateCarBrandResponse) {
+    option deprecated = true;
+  }
+  rpc DeleteCarBrand(DeleteCarBrandRequest) returns (DeleteCarBrandResponse) {
+    option deprecated = true;
+  }
+
+  // Additive v1 APIs for manufacturer -> model -> model_variant hierarchy.
+  rpc CreateCarModelV2(CreateCarModelV2Request) returns (CreateCarModelV2Response);
+  rpc UpdateCarModelV2(UpdateCarModelV2Request) returns (UpdateCarModelV2Response);
+  rpc DeleteCarModelV2(DeleteCarModelV2Request) returns (DeleteCarModelV2Response);
+
+  rpc CreateCarModelVariant(CreateCarModelVariantRequest) returns (CreateCarModelVariantResponse);
+  rpc UpdateCarModelVariant(UpdateCarModelVariantRequest) returns (UpdateCarModelVariantResponse);
+  rpc DeleteCarModelVariant(DeleteCarModelVariantRequest) returns (DeleteCarModelVariantResponse);
+
+  rpc CreateCarModel(CreateCarModelRequest) returns (CreateCarModelResponse) {
+    option deprecated = true;
+  }
+  rpc UpdateCarModel(UpdateCarModelRequest) returns (UpdateCarModelResponse) {
+    option deprecated = true;
+  }
+  rpc DeleteCarModel(DeleteCarModelRequest) returns (DeleteCarModelResponse) {
+    option deprecated = true;
+  }
   rpc CreateCarClass(CreateCarClassRequest) returns (CreateCarClassResponse);
   rpc UpdateCarClass(UpdateCarClassRequest) returns (UpdateCarClassResponse);
   rpc DeleteCarClass(DeleteCarClassRequest) returns (DeleteCarClassResponse);
@@ -607,43 +629,108 @@ message DeleteCarManufacturerResponse {
 }
 
 message CreateCarBrandRequest {
+  option deprecated = true;
   uint32 manufacturer_id = 1;
   string name = 2;
 }
 
 message CreateCarBrandResponse {
+  option deprecated = true;
   backend.common.v1.CarBrand car_brand = 1;
 }
 
 message UpdateCarBrandRequest {
+  option deprecated = true;
   uint32 car_brand_id = 1;
   uint32 manufacturer_id = 2;
   string name = 3;
 }
 
 message UpdateCarBrandResponse {
+  option deprecated = true;
   backend.common.v1.CarBrand car_brand = 1;
 }
 
 message DeleteCarBrandRequest {
+  option deprecated = true;
   uint32 car_brand_id = 1;
 }
 
 message DeleteCarBrandResponse {
+  option deprecated = true;
+  bool deleted = 1;
+}
+
+message CreateCarModelV2Request {
+  uint32 manufacturer_id = 1;
+  string name = 2;
+}
+
+message CreateCarModelV2Response {
+  backend.common.v1.CarModelV2 car_model = 1;
+}
+
+message UpdateCarModelV2Request {
+  uint32 car_model_id = 1;
+  uint32 manufacturer_id = 2;
+  string name = 3;
+}
+
+message UpdateCarModelV2Response {
+  backend.common.v1.CarModelV2 car_model = 1;
+}
+
+message DeleteCarModelV2Request {
+  uint32 car_model_id = 1;
+}
+
+message DeleteCarModelV2Response {
+  bool deleted = 1;
+}
+
+message CreateCarModelVariantRequest {
+  uint32 model_id = 1;
+  string name = 2;
+  repeated backend.common.v1.SimulationAliases simulation_aliases = 3;
+}
+
+message CreateCarModelVariantResponse {
+  backend.common.v1.CarModelVariant car_model_variant = 1;
+}
+
+message UpdateCarModelVariantRequest {
+  uint32 car_model_variant_id = 1;
+  uint32 model_id = 2;
+  string name = 3;
+  repeated backend.common.v1.SimulationAliases simulation_aliases = 4;
+}
+
+message UpdateCarModelVariantResponse {
+  backend.common.v1.CarModelVariant car_model_variant = 1;
+}
+
+message DeleteCarModelVariantRequest {
+  uint32 car_model_variant_id = 1;
+}
+
+message DeleteCarModelVariantResponse {
   bool deleted = 1;
 }
 
 message CreateCarModelRequest {
+  option deprecated = true;
   uint32 brand_id = 1;
   string name = 2;
   repeated backend.common.v1.SimulationAliases simulation_aliases = 3;
 }
 
 message CreateCarModelResponse {
+  option deprecated = true;
   backend.common.v1.CarModel car_model = 1;
 }
 
 message UpdateCarModelRequest {
+  option deprecated = true;
   uint32 car_model_id = 1;
   uint32 brand_id = 2;
   string name = 3;
@@ -651,14 +738,17 @@ message UpdateCarModelRequest {
 }
 
 message UpdateCarModelResponse {
+  option deprecated = true;
   backend.common.v1.CarModel car_model = 1;
 }
 
 message DeleteCarModelRequest {
+  option deprecated = true;
   uint32 car_model_id = 1;
 }
 
 message DeleteCarModelResponse {
+  option deprecated = true;
   bool deleted = 1;
 }
 
@@ -715,9 +805,10 @@ message UnassignCarClassFromSeasonRequest {
 message UnassignCarClassFromSeasonResponse {}
 
 message SetSimulationCarAliasesRequest {
-  uint32 car_model_id = 1;
+  uint32 car_model_variant_id = 1;
   uint32 simulation_id = 2;
   repeated string external_name = 3;
+  uint32 car_model_id = 4; // to be removed after car hierarchy refactoring
 }
 
 message SetSimulationCarAliasesResponse {

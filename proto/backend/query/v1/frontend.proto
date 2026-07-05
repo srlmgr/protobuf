@@ -41,9 +41,14 @@ message ListSeasonDriversRequest {
   uint32 season_id = 1;
 }
 message CarModelContainer {
-  backend.common.v1.CarModel car_model = 1;
-  backend.common.v1.CarBrand car_brand = 2;
+  // Legacy hierarchy kept for backwards compatibility.
+  backend.common.v1.CarModel car_model = 1 [deprecated = true];
+  backend.common.v1.CarBrand car_brand = 2 [deprecated = true];
   backend.common.v1.CarManufacturer car_manufacturer = 3;
+
+  // New hierarchy for additive v1 rollout.
+  backend.common.v1.CarModelV2 car_model_v2 = 4;
+  backend.common.v1.CarModelVariant car_model_variant = 5;
 }
 message SeasonDriverContainer {
   // the raw data for all season drivers. may contain multiple entries for the same driver

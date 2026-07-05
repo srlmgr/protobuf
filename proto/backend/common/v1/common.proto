@@ -191,15 +191,32 @@ message CarManufacturer {
 }
 
 message CarBrand {
+  option deprecated = true;
   uint32 id = 1;
   uint32 manufacturer_id = 2;
   string name = 3;
 }
 message CarModel {
+  option deprecated = true;
   uint32 id = 1;
   uint32 brand_id = 2;
   string name = 3;
 }
+
+// New hierarchy: manufacturer -> model -> model_variant.
+// Kept separate from legacy CarBrand/CarModel for additive v1 rollout.
+message CarModelV2 {
+  uint32 id = 1;
+  uint32 manufacturer_id = 2;
+  string name = 3;
+}
+
+message CarModelVariant {
+  uint32 id = 1;
+  uint32 model_id = 2;
+  string name = 3;
+}
+
 message CarClass {
   uint32 id = 1;
   string name = 2;

@@ -26,8 +26,14 @@ service QueryService {
   rpc GetTrack(GetTrackRequest) returns (GetTrackResponse);
   rpc GetTrackLayout(GetTrackLayoutRequest) returns (GetTrackLayoutResponse);
   rpc GetCarManufacturer(GetCarManufacturerRequest) returns (GetCarManufacturerResponse);
-  rpc GetCarBrand(GetCarBrandRequest) returns (GetCarBrandResponse);
-  rpc GetCarModel(GetCarModelRequest) returns (GetCarModelResponse);
+  rpc GetCarBrand(GetCarBrandRequest) returns (GetCarBrandResponse) {
+    option deprecated = true;
+  }
+  rpc GetCarModelV2(GetCarModelV2Request) returns (GetCarModelV2Response);
+  rpc GetCarModelVariant(GetCarModelVariantRequest) returns (GetCarModelVariantResponse);
+  rpc GetCarModel(GetCarModelRequest) returns (GetCarModelResponse) {
+    option deprecated = true;
+  }
   rpc GetCarClass(GetCarClassRequest) returns (GetCarClassResponse);
 
   rpc ListSimulations(ListSimulationsRequest) returns (ListSimulationsResponse);
@@ -43,8 +49,14 @@ service QueryService {
   rpc ListTracks(ListTracksRequest) returns (ListTracksResponse);
   rpc ListTrackLayouts(ListTrackLayoutsRequest) returns (ListTrackLayoutsResponse);
   rpc ListCarManufacturers(ListCarManufacturersRequest) returns (ListCarManufacturersResponse);
-  rpc ListCarBrands(ListCarBrandsRequest) returns (ListCarBrandsResponse);
-  rpc ListCarModels(ListCarModelsRequest) returns (ListCarModelsResponse);
+  rpc ListCarBrands(ListCarBrandsRequest) returns (ListCarBrandsResponse) {
+    option deprecated = true;
+  }
+  rpc ListCarModelsV2(ListCarModelsV2Request) returns (ListCarModelsV2Response);
+  rpc ListCarModelVariants(ListCarModelVariantsRequest) returns (ListCarModelVariantsResponse);
+  rpc ListCarModels(ListCarModelsRequest) returns (ListCarModelsResponse) {
+    option deprecated = true;
+  }
   rpc ListCarClasses(ListCarClassesRequest) returns (ListCarClassesResponse);
   rpc ListCarClassModels(ListCarClassModelsRequest) returns (ListCarClassModelsResponse);
 }
@@ -193,18 +205,39 @@ message GetCarManufacturerResponse {
 }
 
 message GetCarBrandRequest {
+  option deprecated = true;
   uint32 id = 1;
 }
 
 message GetCarBrandResponse {
+  option deprecated = true;
   backend.common.v1.CarBrand car_brand = 1;
 }
 
+message GetCarModelV2Request {
+  uint32 id = 1;
+}
+
+message GetCarModelV2Response {
+  backend.common.v1.CarModelV2 car_model = 1;
+}
+
+message GetCarModelVariantRequest {
+  uint32 id = 1;
+}
+
+message GetCarModelVariantResponse {
+  backend.common.v1.CarModelVariant car_model_variant = 1;
+  repeated backend.common.v1.SimulationAliases simulation_aliases = 2;
+}
+
 message GetCarModelRequest {
+  option deprecated = true;
   uint32 id = 1;
 }
 
 message GetCarModelResponse {
+  option deprecated = true;
   backend.common.v1.CarModel car_model = 1;
   repeated backend.common.v1.SimulationAliases simulation_aliases = 2;
 }
@@ -330,18 +363,38 @@ message ListCarManufacturersResponse {
 }
 
 message ListCarBrandsRequest {
+  option deprecated = true;
   uint32 manufacturer_id = 1;
 }
 
 message ListCarBrandsResponse {
+  option deprecated = true;
   repeated backend.common.v1.CarBrand items = 1;
 }
 
+message ListCarModelsV2Request {
+  uint32 manufacturer_id = 1;
+}
+
+message ListCarModelsV2Response {
+  repeated backend.common.v1.CarModelV2 items = 1;
+}
+
+message ListCarModelVariantsRequest {
+  uint32 model_id = 1;
+}
+
+message ListCarModelVariantsResponse {
+  repeated backend.common.v1.CarModelVariant items = 1;
+}
+
 message ListCarModelsRequest {
+  option deprecated = true;
   uint32 manufacturer_id = 1;
 }
 
 message ListCarModelsResponse {
+  option deprecated = true;
   repeated backend.common.v1.CarModel items = 1;
 }
 
