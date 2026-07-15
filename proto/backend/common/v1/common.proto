@@ -77,7 +77,7 @@ message SeasonDriver {
   uint32 id = 1;
   uint32 driver_id = 2;
   uint32 season_id = 3;
-  uint32 car_model_id = 4;
+  uint32 car_model_variant_id = 4;
   string car_number = 5;
   bool is_guest_driver = 6;
   google.protobuf.Timestamp joined_at = 7;
@@ -95,7 +95,7 @@ message Team {
   uint32 season_id = 2;
   string name = 3;
   bool is_active = 4;
-  uint32 car_model_id = 5;
+  uint32 car_model_variant_id = 5;
   string car_number = 6;
   google.protobuf.Timestamp joined_at = 7;
   google.protobuf.Timestamp left_at = 8;
@@ -227,7 +227,7 @@ message ResultEntry {
   uint32 race_grid_id = 2;
   uint32 driver_id = 3;
   uint32 team_id = 4;
-  uint32 car_model_id = 5;
+  uint32 car_model_variant_id = 5;
   uint32 car_class_id = 6;
   string car_number = 7;
   int32 starting_position = 8;

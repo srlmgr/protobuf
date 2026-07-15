@@ -37,7 +37,8 @@ service CommandService {
   rpc RemoveSeasonDriver(RemoveSeasonDriverRequest) returns (RemoveSeasonDriverResponse);
   rpc DeleteSeasonDriver(DeleteSeasonDriverRequest) returns (DeleteSeasonDriverResponse);
   rpc SetSeasonCarClasses(SetSeasonCarClassesRequest) returns (SetSeasonCarClassesResponse);
-  rpc SetSeasonCarModels(SetSeasonCarModelsRequest) returns (SetSeasonCarModelsResponse);
+
+  rpc SetSeasonCarModelVariants(SetSeasonCarModelVariantsRequest) returns (SetSeasonCarModelVariantsResponse);
 
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse);
   rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse);
@@ -81,21 +82,12 @@ service CommandService {
   rpc UpdateCarModelVariant(UpdateCarModelVariantRequest) returns (UpdateCarModelVariantResponse);
   rpc DeleteCarModelVariant(DeleteCarModelVariantRequest) returns (DeleteCarModelVariantResponse);
 
-  rpc CreateCarModel(CreateCarModelRequest) returns (CreateCarModelResponse) {
-    option deprecated = true;
-  }
-  rpc UpdateCarModel(UpdateCarModelRequest) returns (UpdateCarModelResponse) {
-    option deprecated = true;
-  }
-  rpc DeleteCarModel(DeleteCarModelRequest) returns (DeleteCarModelResponse) {
-    option deprecated = true;
-  }
   rpc CreateCarClass(CreateCarClassRequest) returns (CreateCarClassResponse);
   rpc UpdateCarClass(UpdateCarClassRequest) returns (UpdateCarClassResponse);
   rpc DeleteCarClass(DeleteCarClassRequest) returns (DeleteCarClassResponse);
-  rpc AssignCarModelToCarClass(AssignCarModelToCarClassRequest) returns (AssignCarModelToCarClassResponse);
+  rpc AssignCarModelVariantToCarClass(AssignCarModelVariantToCarClassRequest) returns (AssignCarModelVariantToCarClassResponse);
   rpc AssignCarClassToSeason(AssignCarClassToSeasonRequest) returns (AssignCarClassToSeasonResponse);
-  rpc UnassignCarModelFromCarClass(UnassignCarModelFromCarClassRequest) returns (UnassignCarModelFromCarClassResponse);
+  rpc UnassignCarModelVariantFromCarClass(UnassignCarModelVariantFromCarClassRequest) returns (UnassignCarModelVariantFromCarClassResponse);
   rpc UnassignCarClassFromSeason(UnassignCarClassFromSeasonRequest) returns (UnassignCarClassFromSeasonResponse);
 
   rpc SetSimulationCarAliases(SetSimulationCarAliasesRequest) returns (SetSimulationCarAliasesResponse);
@@ -302,7 +294,7 @@ message DeleteRaceGridResponse {
 message CreateResultEntryRequest {
   uint32 race_grid_id = 1;
   uint32 driver_id = 2;
-  uint32 car_model_id = 3;
+  uint32 car_model_variant_id = 3;
   int32 finishing_position = 4;
   int32 completed_laps = 5;
   int32 fastest_lap_time_ms = 6;
@@ -319,7 +311,7 @@ message UpdateResultEntryRequest {
   uint32 result_entry_id = 1;
   uint32 race_grid_id = 2;
   uint32 driver_id = 3;
-  uint32 car_model_id = 4;
+  uint32 car_model_variant_id = 4;
   int32 finishing_position = 5;
   int32 completed_laps = 6;
   int32 fastest_lap_time_ms = 7;
@@ -386,7 +378,7 @@ message SetSeasonDriversRequest {
 
 message SetSeasonDriver {
   uint32 driver_id = 1;
-  uint32 car_model_id = 2;
+  uint32 car_model_variant_id = 2;
   string car_number = 3;
   bool is_guest_driver = 4;
   google.protobuf.Timestamp joined_at = 5;
@@ -398,7 +390,7 @@ message SetSeasonDriversResponse {}
 message AddSeasonDriverRequest {
   uint32 driver_id = 1;
   uint32 season_id = 2;
-  uint32 car_model_id = 3;
+  uint32 car_model_variant_id = 3;
   string car_number = 4;
   bool is_guest_driver = 5;
   google.protobuf.Timestamp joined_at = 6;
@@ -424,18 +416,19 @@ message SetSeasonCarClassesRequest {
 }
 
 message SetSeasonCarClassesResponse {}
-message SetSeasonCarModelsRequest {
+
+message SetSeasonCarModelVariantsRequest {
   uint32 season_id = 1;
-  repeated uint32 car_model_ids = 2;
+  repeated uint32 car_model_variant_ids = 2;
 }
 
-message SetSeasonCarModelsResponse {}
+message SetSeasonCarModelVariantsResponse {}
 
 message CreateTeamRequest {
   uint32 season_id = 1;
   string name = 2;
   bool is_active = 3;
-  uint32 car_model_id = 4;
+  uint32 car_model_variant_id = 4;
   string car_number = 5;
   google.protobuf.Timestamp joined_at = 6;
   google.protobuf.Timestamp left_at = 7; // optional, if not provided, will be set to null (indicating currently active)
@@ -450,7 +443,7 @@ message UpdateTeamRequest {
   uint32 season_id = 2;
   string name = 3;
   bool is_active = 4;
-  uint32 car_model_id = 5;
+  uint32 car_model_variant_id = 5;
   string car_number = 6;
   google.protobuf.Timestamp joined_at = 7;
   google.protobuf.Timestamp left_at = 8; // optional, if not provided, will be set to null (indicating currently active)
@@ -717,41 +710,6 @@ message DeleteCarModelVariantResponse {
   bool deleted = 1;
 }
 
-message CreateCarModelRequest {
-  option deprecated = true;
-  uint32 brand_id = 1;
-  string name = 2;
-  repeated backend.common.v1.SimulationAliases simulation_aliases = 3;
-}
-
-message CreateCarModelResponse {
-  option deprecated = true;
-  backend.common.v1.CarModel car_model = 1;
-}
-
-message UpdateCarModelRequest {
-  option deprecated = true;
-  uint32 car_model_id = 1;
-  uint32 brand_id = 2;
-  string name = 3;
-  repeated backend.common.v1.SimulationAliases simulation_aliases = 4;
-}
-
-message UpdateCarModelResponse {
-  option deprecated = true;
-  backend.common.v1.CarModel car_model = 1;
-}
-
-message DeleteCarModelRequest {
-  option deprecated = true;
-  uint32 car_model_id = 1;
-}
-
-message DeleteCarModelResponse {
-  option deprecated = true;
-  bool deleted = 1;
-}
-
 message CreateCarClassRequest {
   string name = 1;
 }
@@ -776,12 +734,12 @@ message DeleteCarClassRequest {
 message DeleteCarClassResponse {
   bool deleted = 1;
 }
-message AssignCarModelToCarClassRequest {
-  uint32 car_model_id = 1;
+message AssignCarModelVariantToCarClassRequest {
+  uint32 car_model_variant_id = 1;
   uint32 car_class_id = 2;
 }
 
-message AssignCarModelToCarClassResponse {}
+message AssignCarModelVariantToCarClassResponse {}
 
 message AssignCarClassToSeasonRequest {
   uint32 car_class_id = 1;
@@ -790,12 +748,12 @@ message AssignCarClassToSeasonRequest {
 
 message AssignCarClassToSeasonResponse {}
 
-message UnassignCarModelFromCarClassRequest {
-  uint32 car_model_id = 1;
+message UnassignCarModelVariantFromCarClassRequest {
+  uint32 car_model_variant_id = 1;
   uint32 car_class_id = 2;
 }
 
-message UnassignCarModelFromCarClassResponse {}
+message UnassignCarModelVariantFromCarClassResponse {}
 
 message UnassignCarClassFromSeasonRequest {
   uint32 car_class_id = 1;
@@ -808,7 +766,6 @@ message SetSimulationCarAliasesRequest {
   uint32 car_model_variant_id = 1;
   uint32 simulation_id = 2;
   repeated string external_name = 3;
-  uint32 car_model_id = 4; // to be removed after car hierarchy refactoring
 }
 
 message SetSimulationCarAliasesResponse {

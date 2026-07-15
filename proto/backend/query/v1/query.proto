@@ -58,7 +58,9 @@ service QueryService {
     option deprecated = true;
   }
   rpc ListCarClasses(ListCarClassesRequest) returns (ListCarClassesResponse);
+  //deprecated
   rpc ListCarClassModels(ListCarClassModelsRequest) returns (ListCarClassModelsResponse);
+  rpc ListCarClassModelVariants(ListCarClassModelVariantsRequest) returns (ListCarClassModelVariantsResponse);
 }
 
 message GetDriverStandingsRequest {
@@ -404,10 +406,20 @@ message ListCarClassesResponse {
   repeated backend.common.v1.CarClass items = 1;
 }
 
+//deprecated
 message ListCarClassModelsRequest {
   uint32 class_id = 1;
 }
 
+//deprecated
 message ListCarClassModelsResponse {
   repeated backend.common.v1.CarModel items = 1;
+}
+
+message ListCarClassModelVariantsRequest {
+  uint32 class_id = 1;
+  uint32 model_id = 2;
+}
+message ListCarClassModelVariantsResponse {
+  repeated backend.common.v1.CarModelVariant items = 1;
 }
