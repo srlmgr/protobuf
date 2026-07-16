@@ -10,8 +10,7 @@ service FrontendService {
   rpc ListSeasonDrivers(ListSeasonDriversRequest) returns (ListSeasonDriversResponse);
   rpc ListSeasonTeams(ListSeasonTeamsRequest) returns (ListSeasonTeamsResponse);
   rpc ListSeasonCarClasses(ListSeasonCarClassesRequest) returns (ListSeasonCarClassesResponse);
-  //deprecated
-  rpc ListSeasonCarModels(ListSeasonCarModelsRequest) returns (ListSeasonCarModelsResponse);
+
   rpc ListSeasonCarModelVariants(ListSeasonCarModelVariantsRequest) returns (ListSeasonCarModelVariantsResponse);
 
   rpc ListTrackLayouts(FrontendServiceListTrackLayoutsRequest) returns (FrontendServiceListTrackLayoutsResponse);
@@ -45,14 +44,9 @@ message ListSeasonDriversRequest {
 
 //to be renamed to CarModelVariantContainer?
 message CarModelContainer {
-  // Legacy hierarchy kept for backwards compatibility.
-  backend.common.v1.CarModel car_model = 1 [deprecated = true];
-  backend.common.v1.CarBrand car_brand = 2 [deprecated = true];
-  backend.common.v1.CarManufacturer car_manufacturer = 3;
-
-  // New hierarchy for additive v1 rollout.
-  backend.common.v1.CarModelV2 car_model_v2 = 4;
-  backend.common.v1.CarModelVariant car_model_variant = 5;
+  backend.common.v1.CarManufacturer car_manufacturer = 1;
+  backend.common.v1.CarModel car_model = 2;
+  backend.common.v1.CarModelVariant car_model_variant = 3;
 }
 message SeasonDriverContainer {
   // the raw data for all season drivers. may contain multiple entries for the same driver
@@ -87,15 +81,6 @@ message ListSeasonCarClassesResponse {
   repeated backend.common.v1.CarClass items = 1;
 }
 
-//deprecated
-message ListSeasonCarModelsRequest {
-  uint32 season_id = 1;
-}
-
-//deprecated
-message ListSeasonCarModelsResponse {
-  repeated backend.common.v1.CarModel items = 1;
-}
 message ListSeasonCarModelVariantsRequest {
   uint32 season_id = 1;
 }

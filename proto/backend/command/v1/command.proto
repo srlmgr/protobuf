@@ -63,20 +63,11 @@ service CommandService {
   rpc CreateCarManufacturer(CreateCarManufacturerRequest) returns (CreateCarManufacturerResponse);
   rpc UpdateCarManufacturer(UpdateCarManufacturerRequest) returns (UpdateCarManufacturerResponse);
   rpc DeleteCarManufacturer(DeleteCarManufacturerRequest) returns (DeleteCarManufacturerResponse);
-  rpc CreateCarBrand(CreateCarBrandRequest) returns (CreateCarBrandResponse) {
-    option deprecated = true;
-  }
-  rpc UpdateCarBrand(UpdateCarBrandRequest) returns (UpdateCarBrandResponse) {
-    option deprecated = true;
-  }
-  rpc DeleteCarBrand(DeleteCarBrandRequest) returns (DeleteCarBrandResponse) {
-    option deprecated = true;
-  }
 
   // Additive v1 APIs for manufacturer -> model -> model_variant hierarchy.
-  rpc CreateCarModelV2(CreateCarModelV2Request) returns (CreateCarModelV2Response);
-  rpc UpdateCarModelV2(UpdateCarModelV2Request) returns (UpdateCarModelV2Response);
-  rpc DeleteCarModelV2(DeleteCarModelV2Request) returns (DeleteCarModelV2Response);
+  rpc CreateCarModel(CreateCarModelRequest) returns (CreateCarModelResponse);
+  rpc UpdateCarModel(UpdateCarModelRequest) returns (UpdateCarModelResponse);
+  rpc DeleteCarModel(DeleteCarModelRequest) returns (DeleteCarModelResponse);
 
   rpc CreateCarModelVariant(CreateCarModelVariantRequest) returns (CreateCarModelVariantResponse);
   rpc UpdateCarModelVariant(UpdateCarModelVariantRequest) returns (UpdateCarModelVariantResponse);
@@ -621,63 +612,30 @@ message DeleteCarManufacturerResponse {
   bool deleted = 1;
 }
 
-message CreateCarBrandRequest {
-  option deprecated = true;
+message CreateCarModelRequest {
   uint32 manufacturer_id = 1;
   string name = 2;
 }
 
-message CreateCarBrandResponse {
-  option deprecated = true;
-  backend.common.v1.CarBrand car_brand = 1;
+message CreateCarModelResponse {
+  backend.common.v1.CarModel car_model = 1;
 }
 
-message UpdateCarBrandRequest {
-  option deprecated = true;
-  uint32 car_brand_id = 1;
-  uint32 manufacturer_id = 2;
-  string name = 3;
-}
-
-message UpdateCarBrandResponse {
-  option deprecated = true;
-  backend.common.v1.CarBrand car_brand = 1;
-}
-
-message DeleteCarBrandRequest {
-  option deprecated = true;
-  uint32 car_brand_id = 1;
-}
-
-message DeleteCarBrandResponse {
-  option deprecated = true;
-  bool deleted = 1;
-}
-
-message CreateCarModelV2Request {
-  uint32 manufacturer_id = 1;
-  string name = 2;
-}
-
-message CreateCarModelV2Response {
-  backend.common.v1.CarModelV2 car_model = 1;
-}
-
-message UpdateCarModelV2Request {
+message UpdateCarModelRequest {
   uint32 car_model_id = 1;
   uint32 manufacturer_id = 2;
   string name = 3;
 }
 
-message UpdateCarModelV2Response {
-  backend.common.v1.CarModelV2 car_model = 1;
+message UpdateCarModelResponse {
+  backend.common.v1.CarModel car_model = 1;
 }
 
-message DeleteCarModelV2Request {
+message DeleteCarModelRequest {
   uint32 car_model_id = 1;
 }
 
-message DeleteCarModelV2Response {
+message DeleteCarModelResponse {
   bool deleted = 1;
 }
 
