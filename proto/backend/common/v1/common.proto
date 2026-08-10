@@ -80,8 +80,9 @@ message SeasonDriver {
   uint32 car_model_variant_id = 4;
   string car_number = 5;
   bool is_guest_driver = 6;
-  google.protobuf.Timestamp joined_at = 7;
-  google.protobuf.Timestamp left_at = 8;
+  bool is_rookie_driver = 7;
+  google.protobuf.Timestamp joined_at = 8;
+  google.protobuf.Timestamp left_at = 9;
 }
 
 // Represents an alias for a driver in a specific simulation, used for mapping imported results to existing drivers
