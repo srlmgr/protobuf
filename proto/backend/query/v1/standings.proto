@@ -10,6 +10,7 @@ service StandingsService {
 
 message GetStandingsRequest {
   uint32 event_id = 1;
+  backend.common.v1.SkipMode skip_mode = 2;
 }
 message GetStandingsResponse {
   uint32 event_id = 1;
