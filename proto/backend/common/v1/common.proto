@@ -31,13 +31,14 @@ message Season {
   string name = 3;
   uint32 point_system_id = 4;
   int32 skip_events = 5;
-  bool has_teams = 6; // uses team standings (in addition to driver standings)
-  bool is_team_based = 7; // use teams instead of drivers for points and standings
-  int32 team_points_top_n = 8; // use top N team driver results for team standings
-  bool is_multiclass = 9;
-  string status = 10;
-  google.protobuf.Timestamp starts_at = 11;
-  google.protobuf.Timestamp ends_at = 12;
+  int32 num_grids = 6; // number of grids per event.
+  bool has_teams = 7; // uses team standings (in addition to driver standings)
+  bool is_team_based = 8; // use teams instead of drivers for points and standings
+  int32 team_points_top_n = 9; // use top N team driver results for team standings
+  bool is_multiclass = 10;
+  string status = 11;
+  google.protobuf.Timestamp starts_at = 12;
+  google.protobuf.Timestamp ends_at = 13;
 }
 
 message Event {
@@ -49,6 +50,7 @@ message Event {
   google.protobuf.Timestamp event_date = 6;
   EventStatus status = 7;
   EventProcessingState processing_state = 8;
+  uint32 point_system_id = 9; // the point system used for this event
 }
 
 message Race {
