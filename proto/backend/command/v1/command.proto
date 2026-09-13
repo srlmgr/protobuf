@@ -149,14 +149,15 @@ message CreateSeasonRequest {
   string name = 2;
   uint32 point_system_id = 3;
   int32 skip_events = 4;
-  int32 num_grids = 5; // number of grids per event. Default is 1.
-  bool has_teams = 6; // uses team standings (in addition to driver standings)
-  bool is_team_based = 7; // use teams instead of drivers for points and standings
-  int32 team_points_top_n = 8; // use top N team driver results for team standings
-  bool is_multiclass = 9;
-  string status = 10;
-  google.protobuf.Timestamp starts_at = 11;
-  google.protobuf.Timestamp ends_at = 12;
+  int32 num_races = 5; // number of races per event. Default is 1.
+  int32 num_grids = 6; // number of grids per event. Default is 1.
+  bool has_teams = 7; // uses team standings (in addition to driver standings)
+  bool is_team_based = 8; // use teams instead of drivers for points and standings
+  int32 team_points_top_n = 9; // use top N team driver results for team standings
+  bool is_multiclass = 10;
+  string status = 11;
+  google.protobuf.Timestamp starts_at = 12;
+  google.protobuf.Timestamp ends_at = 13;
 }
 
 message CreateSeasonResponse {
@@ -168,14 +169,15 @@ message UpdateSeasonRequest {
   string name = 2;
   uint32 point_system_id = 3;
   int32 skip_events = 4;
-  int32 num_grids = 5; // number of grids per event.
-  bool has_teams = 6; // uses team standings (in addition to driver standings)
-  bool is_team_based = 7; // use teams instead of drivers for points and standings
-  int32 team_points_top_n = 8; // use top N team driver results for team standings
-  bool is_multiclass = 9;
-  string status = 10;
-  google.protobuf.Timestamp starts_at = 11;
-  google.protobuf.Timestamp ends_at = 12;
+  int32 num_races = 5; // number of races per event.
+  int32 num_grids = 6; // number of grids per event.
+  bool has_teams = 7; // uses team standings (in addition to driver standings)
+  bool is_team_based = 8; // use teams instead of drivers for points and standings
+  int32 team_points_top_n = 9; // use top N team driver results for team standings
+  bool is_multiclass = 10;
+  string status = 11;
+  google.protobuf.Timestamp starts_at = 12;
+  google.protobuf.Timestamp ends_at = 13;
 }
 
 message UpdateSeasonResponse {
