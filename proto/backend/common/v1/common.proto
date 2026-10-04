@@ -132,13 +132,30 @@ message PositionPointsConfig {
   repeated PointTable tables = 1;
 }
 
+// this is used to deduct points from the total points when a certain threshold is exceeded
+// for example this is used to deduct X percent of the total points when team/driver incidents exceed a certain threshold
 message ThresholdPenaltyRule {
   uint32 threshold = 1;
   double penalty_percent = 2;
 }
 
+// this is used to support different rules per race grid
 message ThresholdPenaltyConfig {
   repeated ThresholdPenaltyRule rules = 1;
+}
+
+message OfftrackExceededRule {
+  // the threshold for offtrack exceedances before penalties are applied
+  uint32 threshold = 1;
+  // penalty applied for each offtrack exceedance
+  int32 per_exceedance_penalty = 2;
+  // global penalty applied when the threshold is exceeded
+  int32 global_penalty = 3;
+}
+
+// this is used to support different rules per race grid
+message OfftrackExceededRuleConfig {
+  repeated OfftrackExceededRule rules = 1;
 }
 
 message PointPolicySettings {
@@ -150,6 +167,7 @@ message PointPolicySettings {
     PositionPointsConfig fastest_lap = 5;
     PositionPointsConfig top_n_finisher = 6;
     ThresholdPenaltyConfig incidents_exceeded = 7;
+    OfftrackExceededRuleConfig offtracks_exceeded = 8;
   }
 }
 
@@ -227,13 +245,14 @@ message ResultEntry {
   int32 quali_time_ms = 11;
   int32 fastest_lap_time_ms = 12;
   int32 incidents = 13;
-  int32 total_time_ms = 14;
-  ResultEntryState state = 15;
-  string admin_notes = 16;
-  string raw_driver_name = 17;
-  string raw_team_name = 18;
-  string raw_car_name = 19;
-  bool is_guest_driver = 20;
+  int32 offtracks = 14;
+  int32 total_time_ms = 15;
+  ResultEntryState state = 16;
+  string admin_notes = 17;
+  string raw_driver_name = 18;
+  string raw_team_name = 19;
+  string raw_car_name = 20;
+  bool is_guest_driver = 21;
 }
 
 message BookingEntry {
@@ -336,6 +355,7 @@ enum BookingSourceType {
   BOOKING_SOURCE_TYPE_PENALTY_POINTS = 7;
   BOOKING_SOURCE_TYPE_TEAM_CONTRIBUTION = 8;
   BOOKING_SOURCE_TYPE_MANUAL_ADJUSTMENT = 9;
+  BOOKING_SOURCE_TYPE_OFFTRACKS_EXCEEDED = 10;
 }
 enum SummaryTargetType {
   SUMMARY_TARGET_TYPE_UNSPECIFIED = 0;
@@ -380,6 +400,7 @@ enum PointPolicy {
   POINT_POLICY_FASTEST_LAP = 4;
   POINT_POLICY_TOP_N_FINISHER = 5;
   POINT_POLICY_INCIDENTS_EXCEEDED = 6;
+  POINT_POLICY_OFFTRACKS_EXCEEDED = 7;
 }
 enum SkipMode {
   SKIP_MODE_UNSPECIFIED = 0;
