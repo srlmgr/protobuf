@@ -17,6 +17,7 @@ service ImportService {
 
   rpc ComputeBookingEntries(ComputeBookingEntriesRequest) returns (ComputeBookingEntriesResponse);
   rpc AddPenalty(AddPenaltyRequest) returns (AddPenaltyResponse);
+  rpc UpdatePenalty(UpdatePenaltyRequest) returns (UpdatePenaltyResponse);
   rpc DeletePenalty(DeletePenaltyRequest) returns (DeletePenaltyResponse);
   rpc FinalizeEventProcessing(FinalizeEventProcessingRequest) returns (FinalizeEventProcessingResponse);
 }
@@ -87,6 +88,14 @@ message AddPenaltyRequest {
   int32 penalty_points = 2;
   string reason = 3;
 }
+
+message UpdatePenaltyRequest {
+  uint32 penalty_id = 1;
+  PenaltyTarget target = 2;
+  int32 penalty_points = 3;
+  string reason = 4;
+}
+
 message PenaltyTarget {
   oneof scope {
     uint32 event_id = 1;
@@ -100,6 +109,7 @@ message PenaltyTarget {
 }
 
 message AddPenaltyResponse {}
+message UpdatePenaltyResponse {}
 message DeletePenaltyRequest {
   uint32 penalty_id = 1;
 }
