@@ -51,6 +51,8 @@ service QueryService {
   rpc ListCarClasses(ListCarClassesRequest) returns (ListCarClassesResponse);
 
   rpc ListCarClassModelVariants(ListCarClassModelVariantsRequest) returns (ListCarClassModelVariantsResponse);
+  // for a given season resolve the human friendly sequence number to the actual target (e.g., event, race, race grid)
+  rpc ResolveSeasonTarget(ResolveSeasonTargetRequest) returns (ResolveSeasonTargetResponse);
 }
 
 message GetDriverStandingsRequest {
@@ -373,4 +375,19 @@ message ListCarClassModelVariantsRequest {
 }
 message ListCarClassModelVariantsResponse {
   repeated backend.common.v1.CarModelVariant items = 1;
+}
+
+// only values > 0 are considered
+message ResolveSeasonTargetRequest {
+  uint32 season_id = 1;
+  uint32 event_no = 2;
+  uint32 race_no = 3;
+  uint32 race_grid_no = 4;
+}
+
+// depending on the request, some of the IDs may not be set (i.e., remain 0)
+message ResolveSeasonTargetResponse {
+  uint32 event_id = 1;
+  uint32 race_id = 2;
+  uint32 race_grid_id = 3;
 }

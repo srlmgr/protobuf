@@ -368,6 +368,7 @@ enum ImportFormat {
   IMPORT_FORMAT_JSON = 1;
   IMPORT_FORMAT_CSV = 2;
   IMPORT_FORMAT_XML = 3;
+  IMPORT_FORMAT_API = 4; // Data is imported via an API. Metadata contains parameters for the API call.
 }
 
 enum RaceSessionType {
