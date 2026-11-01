@@ -454,6 +454,7 @@ message UpdateTeamResponse {
 
 message DeleteTeamRequest {
   uint32 team_id = 1;
+  bool cascade = 2; // optional, if true, will also delete related team as well (e.g., team members, bookings)
 }
 
 message DeleteTeamResponse {
