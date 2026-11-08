@@ -3,6 +3,7 @@ syntax = "proto3";
 package backend.import.v1;
 
 import "backend/common/v1/common.proto";
+import "backend/common/v1/mapping.proto";
 
 service ImportService {
   rpc UploadResultsFile(UploadResultsFileRequest) returns (UploadResultsFileResponse);
@@ -38,7 +39,8 @@ message ResolveMappingsRequest {
 }
 
 message ResolveMappingsResponse {
-  int32 unresolved_mappings = 1;
+  repeated backend.common.v1.ResultEntry rows = 1;
+  repeated backend.common.v1.UnresolvedMapping unresolved_mappings = 2;
 }
 
 message GetPreprocessPreviewRequest {

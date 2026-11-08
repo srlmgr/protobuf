@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package backend.common.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message UnresolvedMapping {
+  // Retained for existing clients during migration.
+  string source_value = 1 [deprecated = true];
+  string mapping_type = 2 [deprecated = true];
+
+  // Context shared by the diagnostic variants.
+  optional uint32 simulation_id = 3;
+  optional uint32 season_id = 4;
+  optional uint32 event_id = 5;
+  google.protobuf.Timestamp event_time = 6;
+  optional uint32 race_grid_id = 7;
+
+  // Present for row-level errors once the entry has been persisted.
+  // Absent for session-level errors, such as a track mapping failure.
+  optional uint32 result_entry_id = 8;
+
+  // Zero-based index in ParsedImportPayload.results, not a file line number.
+  // Useful before persistence; do not treat it as a durable identity.
+  optional uint32 result_index = 9;
+
+  oneof reason {
+    SourceEntityNotFound source_entity_not_found = 10;
+    SeasonDriverNotActive season_driver_not_active = 11;
+    SeasonCarNotConfigured season_car_not_configured = 12;
+    TeamNotFound team_not_found = 13;
+    TeamDriversMissing team_drivers_missing = 14;
+    CarClassNotConfigured car_class_not_configured = 15;
+    CarNumberMismatch car_number_mismatch = 16;
+  }
+}
+
+enum SourceEntityType {
+  SOURCE_ENTITY_TYPE_UNSPECIFIED = 0;
+  SOURCE_ENTITY_TYPE_TRACK = 1;
+  SOURCE_ENTITY_TYPE_DRIVER = 2;
+  SOURCE_ENTITY_TYPE_CAR = 3;
+}
+
+// Preserve the actual imported values independently. They are not necessarily
+// both available; in particular, the current session model has one track value.
+message SourceEntity {
+  optional string id = 1;
+  optional string name = 2;
+}
+
+message SourceEntityNotFound {
+  SourceEntityType entity_type = 1;
+  SourceEntity source = 2;
+}
+
+message SeasonDriverNotActive {
+  uint32 driver_id = 1;
+  SourceEntity source_driver = 2;
+}
+
+message SeasonCarNotConfigured {
+  uint32 car_model_variant_id = 1;
+  SourceEntity source_car = 2;
+}
+
+message ResolvedTeamDriver {
+  uint32 driver_id = 1;
+  SourceEntity source_driver = 2;
+}
+
+message TeamNotFound {
+  string source_team_name = 1;
+  repeated ResolvedTeamDriver drivers_checked = 2;
+}
+
+message TeamDriversMissing {
+  string source_team_name = 1;
+}
+
+message CarClassNotConfigured {
+  uint32 car_model_variant_id = 1;
+  SourceEntity source_car = 2;
+}
+
+message CarNumberMismatch {
+  oneof owner {
+    uint32 driver_id = 1;
+    uint32 team_id = 2;
+  }
+
+  string imported_number = 3;
+  // Presence distinguishes an unavailable value from a configured empty value.
+  optional string configured_number = 4;
+}

@@ -355,11 +355,6 @@ message TeamStanding {
   repeated uint32 dropped_event_ids = 5;
 }
 
-message UnresolvedMapping {
-  string source_value = 1;
-  string mapping_type = 2;
-}
-
 // Enums
 enum ResultEntryState {
   RESULT_ENTRY_STATE_UNSPECIFIED = 0;
